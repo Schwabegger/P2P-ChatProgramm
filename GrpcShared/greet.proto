@@ -19,6 +19,7 @@ service Greeter {
   rpc RequestedUserGroup (RequestUserMsg) returns (Recived);
   rpc SendUser (SendUserMsg) returns (Recived);
   rpc JoinGroupchat (JoinGroupchatMsg) returns (Recived);
+  rpc LeftGroup (LeftGroupMsg) returns (Recived);
 }
 
 message Recived{
@@ -96,4 +97,9 @@ message NameChanged{
 message PfpChanged{
 	int64 id = 1;
 	string newPfp = 2;
+}
+
+message LeftGroupMsg{
+	int64 roomId = 1;
+	int64 senderId = 2;
 }

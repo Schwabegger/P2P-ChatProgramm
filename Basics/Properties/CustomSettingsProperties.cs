@@ -1,4 +1,9 @@
-﻿using Basics.Viewmodels;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Basics.Viewmodels;
 using System;
 using System.Collections.ObjectModel;
 

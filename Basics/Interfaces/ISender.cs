@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,5 +27,6 @@ namespace Basics.Interfaces
         public Task<bool> JoinGroupchat(IPAddress reciverIp, long roomId, IPAddress senderIp, long senderId, string sendername, string senderPfp);
         public Task<bool> PfpChanged(IPAddress reciverIp, long senderId, string senderNewPfp);
         public Task<bool> NameChanged(IPAddress reciverIp, long senderId, string senderNewName);
+        public Task<bool> LeaveGroup(IPAddress reciverIp, long roomId, long senderId);
     }
 }

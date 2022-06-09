@@ -1,4 +1,9 @@
-﻿using Basics.Interfaces;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Basics.Interfaces;
 using Grpc.Net.Client;
 using GrpcShared;
 using System;
@@ -106,6 +111,24 @@ namespace Basics.Models
             var res = await client.NameChangedRecivedAsync(new NameChanged() { Id = senderId, NewName = senderNewName });
             await channel.ShutdownAsync();
             return res.Done;
+        }
+
+        public async Task<bool> LeaveGroup(IPAddress reciverIp, long roomId, long senderId)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            var res = await client.LeftGroupAsync(new LeftGroupMsg() { RoomId = roomId, SenderId = senderId});
+            await channel.ShutdownAsync();
+            return res.Done;
+        }
+
+        private async Task<bool> Send(IPAddress reciverIp, Func<Task> action)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            await action();
+            await channel.ShutdownAsync();
+            return true;
         }
     }
 }

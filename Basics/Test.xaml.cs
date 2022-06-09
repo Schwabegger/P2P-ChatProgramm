@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using System.Windows.Controls;
 
 namespace Basics
 {

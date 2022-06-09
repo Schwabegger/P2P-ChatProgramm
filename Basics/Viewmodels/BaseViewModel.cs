@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

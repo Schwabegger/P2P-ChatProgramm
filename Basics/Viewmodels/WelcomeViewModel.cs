@@ -1,4 +1,9 @@
-﻿using Basics.Commands;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Basics.Commands;
 using Basics.Interfaces;
 using System;
 

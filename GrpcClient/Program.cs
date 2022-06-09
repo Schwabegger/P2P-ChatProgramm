@@ -1,4 +1,9 @@
-﻿using Grpc.Net.Client;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Grpc.Net.Client;
 using GrpcShared;
 
 Main();

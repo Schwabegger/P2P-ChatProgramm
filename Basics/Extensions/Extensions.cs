@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using System.Text.RegularExpressions;
 
 namespace Basics.Extensions
 {

@@ -1,4 +1,9 @@
-﻿using Basics.Interfaces;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Basics.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace Basics.Models

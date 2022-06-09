@@ -1,4 +1,9 @@
-﻿using Basics.Models;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using Basics.Models;
 using System;
 using System.Globalization;
 using System.Windows;

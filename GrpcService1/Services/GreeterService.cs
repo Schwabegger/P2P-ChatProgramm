@@ -1,3 +1,8 @@
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
 using Grpc.Core;
 using GrpcShared;
 using Microsoft.Extensions.Logging;
@@ -19,6 +24,7 @@ namespace GrpcServer
         public event EventHandler<(long, long, string, string, string)> TransmitChatroomParticipantHandler;
         public event EventHandler<(long, string)> NameChangedHandler;
         public event EventHandler<(long, string)> PfpChangedHandler;
+        public event EventHandler<(long, long)> LeftGroupchatHandler;
         
         public override Task<Recived> RequestedUserPrivate(RequestUserMsg request, ServerCallContext context)
         {
@@ -103,6 +109,14 @@ namespace GrpcServer
         public override Task<Recived> JoinGroupchat(JoinGroupchatMsg request, ServerCallContext _)
         {
             JoinedGroupchatHandler?.Invoke(this, (request.RoomId, request.SenderIp, request.SenderId, request.SenderName, request.SenderPfp));
+            return Task.FromResult(new Recived
+            {
+                Done = true
+            });
+        }
+        public override Task<Recived> LeftGroup(LeftGroupMsg request, ServerCallContext _)
+        {
+            LeftGroupchatHandler?.Invoke(this, (request.RoomId, request.SenderId));
             return Task.FromResult(new Recived
             {
                 Done = true

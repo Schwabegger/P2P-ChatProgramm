@@ -1,0 +1,10 @@
+﻿# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+
+# All files
+[*]
+indent_style = space
+file_header_template = Copyright ©️ Schwabegger Moritz. All Rights Reserved\nSupporters:\nඞ Hackl Tobias\nඞ Ratzenböck Peter
+
+# Xml files
+[*.xml]
+indent_size = 2

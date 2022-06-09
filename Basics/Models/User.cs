@@ -1,4 +1,9 @@
-﻿using System.Net;
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Supporters:
+// ඞ Hackl Tobias
+// ඞ Ratzenböck Peter
+
+using System.Net;
 
 namespace Basics.Models
 {
