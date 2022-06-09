@@ -250,6 +250,12 @@ namespace Basics.Viewmodels
                 if (contact.UserId == senderId)
                 {
                     contact.Picture = newPfp;
+                    foreach (ChatRoomViewModel chatRoomViewModel in Chatrooms)
+                        if (chatRoomViewModel.ChatRoom is PrivateChat privateChat && privateChat.OtherUser.UserId == senderId)
+                        {
+                            chatRoomViewModel.ChatRoom.Picture = contact.Picture;
+                            break;
+                        }
                     break;
                 }
 
@@ -266,6 +272,12 @@ namespace Basics.Viewmodels
                 if (contact.UserId == senderId)
                 {
                     contact.UserName = newName;
+                    foreach (ChatRoomViewModel chatRoomViewModel in Chatrooms)
+                        if (chatRoomViewModel.ChatRoom is PrivateChat privateChat && privateChat.OtherUser.UserId == senderId)
+                        {
+                             chatRoomViewModel.ChatRoom.Name = contact.UserName;
+                            break;
+                        }
                     break;
                 }
         }

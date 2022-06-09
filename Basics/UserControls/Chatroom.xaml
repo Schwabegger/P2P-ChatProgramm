@@ -83,7 +83,7 @@
                                 </Grid.RowDefinitions>
 
                                 <!--<TextBlock Grid.Row="0" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Name}"></TextBlock>-->
-                                <TextBlock Foreground="{DynamicResource Textcolor}" Grid.Row="0" Text="{Binding Sender.UserName}" FontWeight="Bold"></TextBlock>
+                                <TextBlock Foreground="{DynamicResource Textcolor}" Grid.Row="0" Text="{Binding Sender.UserName}" FontWeight="Bold"/>
                                 <TextBlock Foreground="{DynamicResource Textcolor}" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Content}"></TextBlock>
 
                             </Grid>
