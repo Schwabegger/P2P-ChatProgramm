@@ -20,5 +20,7 @@ namespace Basics.Interfaces
         //public Task<bool> OpenPrivateChatroom(IPAddress reciverIp, IPAddress myIp, long myId, string myName, string myPfp);
         public Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp, IPAddress senderIp, long senderId, string sendername, string senderPfp);
         public Task<bool> JoinGroupchat(IPAddress reciverIp, long roomId, IPAddress senderIp, long senderId, string sendername, string senderPfp);
+        public Task<bool> PfpChanged(IPAddress reciverIp, long senderId, string senderNewPfp);
+        public Task<bool> NameChanged(IPAddress reciverIp, long senderId, string senderNewName);
     }
 }

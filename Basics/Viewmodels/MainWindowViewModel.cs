@@ -225,7 +225,6 @@ namespace Basics.Viewmodels
             }
         }
 
-
         private void RegisterOnServerEvents(GreeterService services)
         {
 
@@ -237,8 +236,39 @@ namespace Basics.Viewmodels
             services.OpenPrivateChatHandler += AddPrivateChat;
             services.JoinedGroupchatHandler += UserJoinedGroupchat;
             services.NewUserAddedToGroupchatHandler += AddAddedUserToGroupchat;
+            services.NameChangedHandler += UserChangedName;
+            services.PfpChangedHandler += UserChangedPfp;
         }
 
+        private void UserChangedPfp(object sender, (long, string) e)
+        {
+            long senderId = e.Item1;
+            string newPfp = e.Item2;
+            User[] contacts = new User[Contacts.Count];
+            Contacts.CopyTo(contacts, 0);
+            foreach (User contact in contacts)
+                if (contact.UserId == senderId)
+                {
+                    contact.Picture = newPfp;
+                    break;
+                }
+
+        }
+
+        private void UserChangedName(object sender, (long, string) e)
+        {
+            long senderId = e.Item1;
+            string newName = e.Item2;
+
+            User[] contacts = new User[Contacts.Count];
+            Contacts.CopyTo(contacts, 0);
+            foreach (User contact in contacts)
+                if (contact.UserId == senderId)
+                {
+                    contact.UserName = newName;
+                    break;
+                }
+        }
 
         private async void AddAddedUserToGroupchat(object sender, (long, string, long, string, string) e)
         {
@@ -261,6 +291,7 @@ namespace Basics.Viewmodels
                 if (chat.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
                     groupchat.Participants.Add(joinedUser);
         }
+
         private async void UserJoinedGroupchat(object sender, (long, string, long, string, string) e)
         {
             long roomId = e.Item1;
@@ -309,6 +340,7 @@ namespace Basics.Viewmodels
             long id = e.Item2;
             string name = e.Item3;
             string pfp = e.Item4;
+
             User newUser = null;
             foreach (User user in Contacts)
                 if (user.UserId == id)
@@ -316,6 +348,7 @@ namespace Basics.Viewmodels
             foreach (ChatRoomViewModel chatRoomViewModel in Chatrooms)
                 if (chatRoomViewModel.ChatRoom is PrivateChat privateChat && privateChat.OtherUser.UserId == id)
                     return;
+
             if (newUser == null)
             {
                 Contacts.Add(new User(ip, name, pfp, id));
@@ -508,9 +541,15 @@ namespace Basics.Viewmodels
         private void UpdateUser(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Properties.Settings.Default.Name))
+            {
                 Contacts[0].UserName = Properties.Settings.Default.Name;
+                TellOthersNameChanged();
+            }
             if (e.PropertyName == nameof(Properties.Settings.Default.Pfp))
+            {
                 Contacts[0].Picture = Properties.Settings.Default.Pfp;
+                TellOthersPfpChanged();
+            }
             if (e.PropertyName == nameof(Properties.Settings.Default.Theme))
                 if (ThemeChanged != null)
                     ThemeChanged.Invoke(sender, EventArgs.Empty);
@@ -519,6 +558,30 @@ namespace Basics.Viewmodels
             //    MeAsUser.UserName = Properties.Settings.Default.Name;
             //if(e.PropertyName == nameof(Properties.Settings.Default.Pfp))
             //    MeAsUser.Picture = Properties.Settings.Default.Pfp;
+        }
+
+        private async void TellOthersPfpChanged()
+        {
+            User[] contacts = new User[Contacts.Count];
+            Contacts.CopyTo(contacts, 0);
+            foreach (User contact in contacts)
+                try
+                {
+                    await grpcSender.PfpChanged(contact.Ip, Contacts[0].UserId, Contacts[0].Picture);
+                }
+                catch { }
+        }
+
+        private async void TellOthersNameChanged()
+        {
+            User[] contacts = new User[Contacts.Count];
+            Contacts.CopyTo(contacts, 0);
+            foreach (User contact in contacts)
+                try
+                {
+                    await grpcSender.NameChanged(contact.Ip, Contacts[0].UserId, Contacts[0].UserName);
+                }
+                catch { }
         }
 
         private void AddRecivedPrivateMessage(object sender, (long, string) e)

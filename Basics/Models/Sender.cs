@@ -89,5 +89,23 @@ namespace Basics.Models
             await channel.ShutdownAsync();
             return res.Done;
         }
+
+        public async Task<bool> PfpChanged(IPAddress reciverIp, long senderId, string senderNewPfp)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            var res = await client.PfpChangedRecivedAsync(new PfpChanged() { Id = senderId, NewPfp = senderNewPfp });
+            await channel.ShutdownAsync();
+            return res.Done;
+        }
+
+        public async Task<bool> NameChanged(IPAddress reciverIp, long senderId, string senderNewName)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            var res = await client.NameChangedRecivedAsync(new NameChanged() { Id = senderId, NewName = senderNewName });
+            await channel.ShutdownAsync();
+            return res.Done;
+        }
     }
 }
