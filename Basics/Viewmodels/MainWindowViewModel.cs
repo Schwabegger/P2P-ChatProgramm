@@ -234,7 +234,7 @@ namespace Basics.Viewmodels
             services.GroupMessageRecivedHandler += AddRecifedGroupMessage;
             services.AddedToGroupchatHandler += AddGroupChatroom;
             services.TransmitChatroomParticipantHandler += AddParticipantToCharoom;
-            //services.OpenPrivateChatHandler += AddPrivateChat;
+            services.OpenPrivateChatHandler += AddPrivateChat;
             //services.RequestedUserHandler += (sender, args) => ;
         }
 
@@ -274,9 +274,12 @@ namespace Basics.Viewmodels
                 if (user.UserId == userId)
                     userToAdd = user;
             if (userToAdd == null)
+            {
                 Contacts.Add(new User(ip, userName, pfp, userId));
+                userToAdd = Contacts[Contacts.Count - 1];
+            }
             foreach (ChatRoomViewModel chatRoomViewModel in Chatrooms)
-                if (chatRoomViewModel.ChatRoom is Groupchat groupchat)
+                if (chatRoomViewModel.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
                 {
                     foreach (User user in groupchat.Participants)
                         if (user.UserId == userId)
