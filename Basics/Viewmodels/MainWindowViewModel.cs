@@ -460,7 +460,10 @@ namespace Basics.Viewmodels
             if (chatRoom != null)
             {
                 User senderUser = GetUser(senderId);
-                chatRoom.ChatHistory.Add(new Message(senderUser, content));
+                MainWindow.Instance.Dispatcher.Invoke(delegate ()
+                {
+                    chatRoom.ChatHistory.Add(new Message(senderUser, content));
+                });
             }
 
         }
