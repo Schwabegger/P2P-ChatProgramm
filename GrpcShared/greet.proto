@@ -57,6 +57,10 @@ message AddedToGroupchatMsg{
 	int64 roomId = 1;
 	string roomName = 2;
 	string roomPfp = 3;
+	string senderIp = 4;
+	int64 senderId = 5;
+	string senderName = 6;
+	string senderPfp = 7;
 }
 
 message NewUserAddedToGroupchat{
