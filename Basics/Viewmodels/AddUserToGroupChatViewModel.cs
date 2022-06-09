@@ -8,11 +8,16 @@ namespace Basics.Viewmodels
 {
     public class AddUserToGroupChatViewModel : BaseViewModel
     {
+        #region Fields
         private string ip = SetIpField();
         private bool addButtonEnabled;
+        #endregion
 
+        #region DelegateCommands
         public DelegateCommand AddUserCommand { get; set; }
+        #endregion
 
+        #region Properties
         public string IpField
         {
             get { return ip; }
@@ -24,7 +29,6 @@ namespace Basics.Viewmodels
             }
         }
 
-
         public bool AddButtonEnabled
         {
             get { return addButtonEnabled; }
@@ -34,7 +38,7 @@ namespace Basics.Viewmodels
                 RaisePropertyChanged();
             }
         }
-
+        #endregion
 
         public AddUserToGroupChatViewModel()
         {
@@ -49,6 +53,10 @@ namespace Basics.Viewmodels
                 });
         }
 
+        /// <summary>
+        /// Returns the part of the ip which is constant because of the subnetmask
+        /// </summary>
+        /// <returns>a string of the fix part of an ip</returns>
         static string SetIpField()
         {
             string ip = GetIpAddressFromHost();
@@ -78,6 +86,10 @@ namespace Basics.Viewmodels
             return "0.0.0.0";
         }
 
+        /// <summary>
+        /// Returns the ip address of the host computer
+        /// </summary>
+        /// <returns></returns>
         private static string GetIpAddressFromHost()
         {
             string hostname = Dns.GetHostName();
@@ -104,6 +116,11 @@ namespace Basics.Viewmodels
             }
         }
 
+        /// <summary>
+        /// Gets the subnetmask from the host computer
+        /// </summary>
+        /// <param name="ip">The ip address so the method knows which network adapter to get the subnetmask from</param>
+        /// <returns></returns>
         static string GetSubnetMask(string ip)
         {
             NetworkInterface[] Interfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -122,7 +139,5 @@ namespace Basics.Viewmodels
             }
             return null;
         }
-
     }
-
 }

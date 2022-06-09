@@ -1,11 +1,7 @@
 ﻿FE
-	Button zum verlassen einer Gruppe
 	Sprache ändern ComboBox verschönern
 
-
 BE
-	Konstruktoren mocha (Chatroom, User, ?)
-	Lokale Liste aller Kontakte
 	Server implementieren
 	verlassen von Gruppenchat
 	Datein senden
