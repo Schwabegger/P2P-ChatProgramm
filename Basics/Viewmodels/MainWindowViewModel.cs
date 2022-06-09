@@ -385,7 +385,10 @@ namespace Basics.Viewmodels
             long roomId = e.Item1;
             string groupName = e.Item2;
             string pfp = e.Item3;
-            Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
+            MainWindow.Instance.Dispatcher.Invoke(delegate ()
+            {
+                Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
+            });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
         }
 
