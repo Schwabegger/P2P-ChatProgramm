@@ -4,7 +4,6 @@ using Basics.Models;
 using Grpc.Core;
 using GrpcServer;
 using GrpcShared;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace Basics.Viewmodels
 {
@@ -238,7 +238,7 @@ namespace Basics.Viewmodels
             //services.RequestedUserHandler += (sender, args) => ;
         }
 
-        private void AddPrivateChat(object sender, (string, long, string, string)e)
+        private void AddPrivateChat(object sender, (string, long, string, string) e)
         {
             IPAddress ip = IPAddress.Parse(e.Item1);
             long id = e.Item2;
@@ -256,10 +256,13 @@ namespace Basics.Viewmodels
                 Contacts.Add(new User(ip, name, pfp, id));
                 newUser = Contacts[Contacts.Count - 1];
             }
-            Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(newUser, newUser.Picture, Contacts[0], grpcSender)));
+            MainWindow.Instance.Dispatcher.Invoke(delegate ()
+            {
+                Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(newUser, newUser.Picture, Contacts[0], grpcSender)));
+            });
         }
 
-        private void AddParticipantToCharoom(object sender, (long, long, string, string, string)e)
+        private void AddParticipantToCharoom(object sender, (long, long, string, string, string) e)
         {
             long roomId = e.Item1;
             long userId = e.Item2;
@@ -354,14 +357,21 @@ namespace Basics.Viewmodels
                             SelectedChatRoom = Chatrooms[c];
                             return;
                         }
-                    Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(Contacts[i], pfp, Contacts[0], grpcSender)));
+                    MainWindow.Instance.Dispatcher.Invoke(delegate ()
+                    {
+                        Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(Contacts[i], pfp, Contacts[0], grpcSender)));
+
+                    });
                     Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
                     return;
                 }
             // send your uerdata (ip, name, pfp, id)
             //await server.OpenConnection(id, ip);
             Contacts.Add(new User(ip, name, pfp, id));
-            Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(Contacts[Contacts.Count - 1], Contacts[Contacts.Count - 1].Picture, Contacts[0], grpcSender)));
+            MainWindow.Instance.Dispatcher.Invoke(delegate ()
+            {
+                Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(Contacts[Contacts.Count - 1], Contacts[Contacts.Count - 1].Picture, Contacts[0], grpcSender)));
+            });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
             await grpcSender.OpenPrivateChat(ip, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
         }
@@ -370,7 +380,7 @@ namespace Basics.Viewmodels
         /// Creates/adds a group chat to list
         /// </summary>
         /// <param name="groupName">The name the group chat should have</param>
-        private void AddGroupChatroom(object sender, (long, string, string)e)
+        private void AddGroupChatroom(object sender, (long, string, string) e)
         {
             long roomId = e.Item1;
             string groupName = e.Item2;
@@ -429,7 +439,7 @@ namespace Basics.Viewmodels
             }
         }
 
-        private void AddRecifedGroupMessage(object sender, (long, long, string)e)
+        private void AddRecifedGroupMessage(object sender, (long, long, string) e)
         {
             long roomId = e.Item1;
             long senderId = e.Item2;
