@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcShared";
+
+package greet;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc OpenPrivateChat (OpenPrivateChatMsg) returns (Recived);
+  rpc AddedToGroupchat (AddedToGroupchatMsg) returns (Recived);
+  rpc PrivateMessageRecived (PrivateMessage) returns (Recived);
+  rpc GroupMessageRecived (GroupMessage) returns (Recived);
+  rpc NewUserAddedToGroupchatRecived (NewUserAddedToGroupchat) returns (Recived);
+  rpc TransmitChatroomParticipantRecived (TransmitChatroomParticipant) returns (Recived);
+  rpc NameChangedRecived (NameChanged) returns (Recived);
+  rpc PfpChangedRecived (PfpChanged) returns (Recived);
+  rpc RequestedUserPrivate (RequestUserMsg) returns (Recived);
+  rpc RequestedUserGroup (RequestUserMsg) returns (Recived);
+  rpc SendUser (SendUserMsg) returns (Recived);
+}
+
+message Recived{
+	bool done = 1;
+}
+
+message RequestUserMsg{
+	string ip = 1;
+}
+
+message SendUserMsg{
+	string ip = 1;
+	int64 id = 2;
+	string name = 3;
+	string pfp = 4;
+}
+
+message PrivateMessage {
+  int64 id = 1;
+  string content = 2;
+}
+
+message GroupMessage {
+  int64 id = 1;
+  string content = 2;
+  int64 roomId = 3;
+}
+
+message OpenPrivateChatMsg{
+	string ip = 1;
+	int64 id = 2;
+	string name = 3;
+	string pfp = 4;
+}
+
+message AddedToGroupchatMsg{
+	int64 roomId = 1;
+	string roomName = 2;
+	string roomPfp = 3;
+}
+
+message NewUserAddedToGroupchat{
+	int64 roomId = 1;
+	int64 userId = 2;
+	string userName = 3;
+	string userPfp = 4;
+	string userIp = 5;
+}
+
+message TransmitChatroomParticipant{
+	int64 roomId = 1;
+	int64 userId = 2;
+	string userName = 3;
+	string userPfp = 4;
+	string userIp = 5;
+}
+
+message NameChanged{
+	int64 id = 1;
+	string newName = 2;
+}
+
+message PfpChanged{
+	int64 id = 1;
+	string newPfp = 2;
+}

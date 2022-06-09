@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <SolidColorBrush x:Key="Backgroundcolor" Color="{StaticResource YellowThemeBackgroundColor}"/>
+    <SolidColorBrush x:Key="Bordercolor" Color="{StaticResource YellowThemeBorderColor}"/>
+    <SolidColorBrush x:Key="MenuColor" Color="{StaticResource YellowThemeMenuColor}"/>
+    <SolidColorBrush x:Key="Textcolor" Color="{StaticResource YellowThemeTextColor}"/>
+    <SolidColorBrush x:Key="Userlistboxcolor" Color="{StaticResource YellowThemeListboxColor}"/>
+    <SolidColorBrush x:Key="Textfieldcolor" Color="{StaticResource YellowThemeTextFieldColor}"/>
+    <SolidColorBrush x:Key="Buttoncolor" Color="{StaticResource YellowThemeButtonColor}"/>
+</ResourceDictionary>

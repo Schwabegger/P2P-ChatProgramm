@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="Basics.UserControls.Chatroom"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Basics" 
+             xmlns:models="clr-namespace:Basics.Models"
+             xmlns:properties="clr-namespace:Basics.Properties"
+             xmlns:vm="clr-namespace:Basics.Viewmodels"
+             xmlns:converter="clr-namespace:Basics.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="430" d:DesignWidth="580"
+             DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ChatRoomViewModel}">
+    
+    <UserControl.Resources>
+        <converter:GroupChatButtonsVisiblityConverter x:Key="GroupChatButtonsVisConverter"/>
+    </UserControl.Resources>
+
+
+    <Grid d:Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="140"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="{DynamicResource Bordercolor}" BorderThickness="0,0,0,1"/>
+            
+            <Viewbox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,70,0" Height="50">
+                <TextBlock Foreground="{DynamicResource Textcolor}" Text="{Binding ChatRoom.Name}" FontWeight="DemiBold"/>
+            </Viewbox>
+
+            <Button Grid.Column="1" HorizontalAlignment="Left" Width="30" Height="30" Margin="15, 10, 10, 10" BorderThickness="0" 
+                    Background="{DynamicResource Backgroundcolor}" Visibility="{Binding Path=ChatRoom, Converter={StaticResource GroupChatButtonsVisConverter}}" Command="{Binding ListMembersCommand}">
+                <Image Source="https://img.icons8.com/windows/32/undefined/shortlist.png"/>
+            </Button>
+
+            <Button Grid.Row="0" d:Background="White" Grid.Column="1" HorizontalAlignment="Center" Width="30" Height="30" Margin="0, 10, 0, 10" BorderThickness="0"
+                    Background="{DynamicResource Backgroundcolor}" Visibility="{Binding Path=ChatRoom, Converter={StaticResource GroupChatButtonsVisConverter}}"
+                    Command="{Binding AddUserToGroupchatCommand}">
+                <Image Source="https://cdn-icons-png.flaticon.com/512/50/50041.png"></Image>
+            </Button>
+
+            <Button Grid.Row="0" Grid.Column="1" Width="30" Height="30" HorizontalAlignment="Right" Margin="10,10,15,10" BorderThickness="0"
+                    Background="{DynamicResource Backgroundcolor}" Visibility="{Binding Path=ChatRoom, Converter={StaticResource GroupChatButtonsVisConverter}}"
+                    Command="{Binding LeavGroupChatCommand}">
+                <Image Source="https://img.icons8.com/windows/32/undefined/exit.png"/>
+            </Button>
+        </Grid>
+
+        
+
+        <Grid Grid.Row="1" Background="{DynamicResource Backgroundcolor}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <!--Listbox for the Messages-->
+            <ListBox x:Name="lstChat" ScrollViewer.CanContentScroll="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Grid.Row="0"  HorizontalContentAlignment="Stretch" Background="{DynamicResource Backgroundcolor}" BorderThickness="0" ItemsSource="{Binding ChatRoom.ChatHistory}">
+
+                <!--custom scrollbar-->
+                <!--Custom Listbox items to fit the Chat Style-->
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:Message}">
+                        <!--<Border BorderThickness="1" BorderBrush="LightGray" CornerRadius="10">-->
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!--<TextBlock Grid.Row="0" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Name}"></TextBlock>-->
+                                <TextBlock Foreground="{DynamicResource Textcolor}" Grid.Row="0" Text="{Binding Sender.UserName}" FontWeight="Bold"></TextBlock>
+                                <TextBlock Foreground="{DynamicResource Textcolor}" TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Content}"></TextBlock>
+
+                            </Grid>
+                            <!--Profilepicture in Chat-->
+                            <Ellipse Width="35" Height="35" VerticalAlignment="Top" Grid.Column="0">
+                                <Ellipse.Fill>
+                                    <!--<ImageBrush ImageSource="{Binding Source={x:Static properties:Settings.Default}, Path=Pfp}"/>-->
+                                    <ImageBrush ImageSource="{Binding Sender.Picture}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+
+            <!--Border that surounds the whole messagebar-->
+            <Border Grid.Row="1" Margin="15" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Height="40">
+                <!--Grid for the message Bar-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Messagebar 2Buttons 1TextBox-->
+                    <!--Button to upload images and Files-->
+                    <Button Grid.Column="0" Style="{StaticResource Menubtn}" Command="{Binding UploadCommand}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10,0,0,10"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="https://img.icons8.com/material-sharp/344/upload--v2.png" Height="30" Width="34"/>
+                    </Button>
+
+                    <!--TextBox to enter you message-->
+                    <TextBox Grid.Column="1" HorizontalAlignment="Stretch" BorderThickness="0" Padding="1 8 1 0" TextWrapping="Wrap" Text="{Binding CurrentMessage, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding AddCommand}"/>
+                            <!--Das man einfach Enter drücken kann so das man nicht immer auf den Button gehen muss-->
+                        </TextBox.InputBindings>
+                    </TextBox>
+
+                    <!--Button to send your Massage/File/Image-->
+                    <Button Grid.Column="2" Style="{StaticResource Menubtn}" Command="{Binding AddCommand}" MouseLeftButtonUp="Button_MouseLeftButtonUp">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="0,10,10,0"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="https://img.icons8.com/small/344/filled-sent.png" Height="30" Width="34"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

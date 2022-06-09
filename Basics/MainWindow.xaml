@@ -1,0 +1,165 @@
+﻿<Window x:Class="Basics.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Basics"
+        xmlns:vm="clr-namespace:Basics.Viewmodels"
+        xmlns:userControls="clr-namespace:Basics.UserControls"
+        xmlns:properties="clr-namespace:Basics.Properties"
+        xmlns:converter="clr-namespace:Basics.Converter"
+        mc:Ignorable="d"
+        Title="Sigma" Height="450" Width="800" 
+        MinHeight="450" MinWidth="800"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
+
+    <Window.Resources>
+        <converter:ListEmptyToVisibilityConverter x:Key="ListEmptyVisConv"/>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel></vm:MainWindowViewModel>
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource Backgroundcolor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="{DynamicResource Bordercolor}" BorderThickness="0,0,0,1" Background="{DynamicResource Userlistboxcolor}"/>
+        <Border Grid.Column="0" Grid.Row="0" BorderBrush="{DynamicResource Bordercolor}" BorderThickness="0,0,1,1" Background="{DynamicResource Userlistboxcolor}"/>
+
+        <!--Stackpanel mit profilbild und Name-->
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Ellipse Width="50" Height="50" Margin="10">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Source={x:Static properties:Settings.Default}, Path=Pfp}"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock Foreground="{DynamicResource Textcolor}" Width="Auto" VerticalAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Name}"/>
+        </StackPanel>
+
+        <userControls:Settings Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="Set"
+                               SettingsViewModel="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=DataContext.SettingsViewModel}"/>
+        <userControls:Chatroom Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="Chat"
+                            ChatRoomViewModel="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=DataContext.SelectedChatRoom}"
+                            Visibility="{Binding ElementName=Chatselection, Path=SelectedIndex, Converter={StaticResource ListEmptyVisConv}}"/>
+
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="{DynamicResource Bordercolor}" BorderThickness="0,0,1,0">
+            <!--Sidebar Grid definition-->
+            <Grid Grid.Row="1" Grid.Column="0" Background="{DynamicResource Menucolor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="{DynamicResource Bordercolor}" BorderThickness="0,0,0,1"/>
+
+                <!--Search Textbox with Style-->
+                <TextBox Grid.Row="0" Margin="10 10 40 10" Padding="5 0 0 0" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <!--Search Button with Image-->
+                <Button Margin="165,10,10,10" Background="White" BorderThickness="0" IsHitTestVisible="False">
+                    <Image Grid.Row="0" Source="https://www.downloadclipart.net/large/search-button-png-hd-photo.png"></Image>
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <!--Listbox for all contacts and groups-->
+                <ListBox x:Name="Chatselection" Grid.Row="1" Padding="5" HorizontalContentAlignment="Stretch" MouseLeftButtonUp="SelectedChanged"
+                         SelectedItem="{Binding SelectedChatRoom}" ItemsSource="{Binding Chatrooms}" Background="{DynamicResource Menucolor}" SelectedIndex="{Binding SelectedChatroomIndex}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"
+                         BorderThickness="0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Style.Resources>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Bordercolor}"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Margin" Value="0 1 0 1"/>
+                            <Setter Property="Background" Value="{DynamicResource Userlistboxcolor}"/>
+                            <Setter Property="ToolTip" Value="{Binding ChatRoom.Name}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Textcolor}"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <!--<Border BorderBrush="Black" BorderThickness="2" ToolTip="{Binding ChatRoom.Name}" CornerRadius="10" Padding="1">-->
+                            <Grid>
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Padding="5,0,0,5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ChatRoom.Name}"/>
+
+                                <!--Profilepicture for Friend and Chats-->
+                                <Ellipse Width="35" Height="35" VerticalAlignment="Center" Grid.Column="0" Margin="2">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding ChatRoom.Picture}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!--Borders Grid 2-->
+                <Border Grid.Row="2" BorderBrush="{DynamicResource Bordercolor}" BorderThickness=" 0,1,0,0"/>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!--Button to Copy the ip address-->
+                    <!--Background="{Binding MenuColor}" BorderBrush="{Binding MenuColor}" Foreground="{Binding FontColor}"-->
+                    <Button Foreground="{DynamicResource Textcolor}" BorderBrush="{DynamicResource Bordercolor}" Background="{DynamicResource Buttoncolor}" x:Name="tbl_ip" Grid.Row="0" Margin="10 10 10 0" Click="Button_Click_1" Content="{DynamicResource StrCopyIpButton}" Style="{StaticResource RnCnBtn}"/>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Settingsbutton => to swap to Settings Window / Addbutton => to open the AddContacts Dialog-->
+                        <Button Foreground="{DynamicResource Textcolor}"  BorderBrush="{DynamicResource Bordercolor}" Background="{DynamicResource Buttoncolor}" x:Name="btn_AddContact" Margin="10 0 5 10" Grid.Column="0" Content="{DynamicResource StrAddButton}" Height="20" Command="{Binding AddChatroomCommand}">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Bordercolor}"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Foreground="{DynamicResource Textcolor}" Background="{DynamicResource Buttoncolor}" BorderBrush="{DynamicResource Bordercolor}" Name="btnSettings" Margin="5 0 10 10" Grid.Column="1" Content="{DynamicResource StrSettings}" Height="20" Command="{Binding SettingsCommand}">
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

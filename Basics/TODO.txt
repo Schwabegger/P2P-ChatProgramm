@@ -1,0 +1,22 @@
+﻿FE
+	Button zum verlassen einer Gruppe
+	Sprache ändern ComboBox verschönern
+
+
+BE
+	Konstruktoren mocha (Chatroom, User, ?)
+	Lokale Liste aller Kontakte
+	Server implementieren
+	verlassen von Gruppenchat
+	Datein senden
+
+	schwabbi Denkfehler ausbessern
+
+	Allen von einer Namens-/Pfp-änderung mitteilen
+	Name/Pfp von anderem ändern falls dieser es ändert
+
+	(unwichtig)
+	Custom settings zum speichern der Chats
+
+	(optional)
+	Gruppenadmins

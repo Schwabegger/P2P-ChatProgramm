@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary x:Key="0">
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="languages/lang_de.xaml"/>
+            <!--<ResourceDictionary Source="/Waf.InformationManager.Common.Presentation;Component/Resources/ConverterResources.xaml"/>-->
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+
+</ResourceDictionary>

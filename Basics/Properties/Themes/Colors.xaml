@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="BlueThemeBackgroundColor" R="163" G="215" B="245"/>
+    <Color x:Key="BlueThemeBorderColor" R="0" G="0" B="0"/>
+    <Color x:Key="BlueThemeMenuColor" R="160" G="200" B="250"/>
+    <Color x:Key="BlueThemeTextColor" R="0" G="0" B="0"/>
+    <Color x:Key="BlueThemeListboxColor" R="163" G="215" B="245"/>
+    <Color x:Key="BlueThemeTextFieldColor" R="255" G="255" B="255"/>
+    <Color x:Key="BlueThemeButtonColor" R="160" G="200" B="250"/>
+
+    <Color x:Key="BlackThemeBackgroundColor" R="50" G="50" B="50"/>
+    <Color x:Key="BlackThemeBorderColor" R="255" G="255" B="255"/>
+    <Color x:Key="BlackThemeMenuColor" R="100" G="100" B="100"/>
+    <Color x:Key="BlackThemeTextColor" R="255" G="255" B="255"/>
+    <Color x:Key="BlackThemeListboxColor" R="50" G="50" B="50"/>
+    <Color x:Key="BlackThemeTextFieldColor" R="100" G="100" B="100"/>
+    <Color x:Key="BlackThemeButtonColor" R="100" G="100" B="100"/>
+
+    <Color x:Key="YellowThemeBackgroundColor" R="0" G="0" B="0"/>
+    <Color x:Key="YellowThemeBorderColor" R="250" G="250" B="230"/>
+    <Color x:Key="YellowThemeMenuColor" R="0" G="0" B="0"/>
+    <Color x:Key="YellowThemeTextColor" R="0" G="0" B="0"/>
+    <Color x:Key="YellowThemeListboxColor" R="245" G="200" B="160"/>
+    <Color x:Key="YellowThemeTextFieldColor" R="255" G="255" B="255"/>
+    <Color x:Key="YellowThemeButtonColor" R="0" G="0" B="0"/>
+
+    <Color x:Key="GreenThemeBackgroundColor" R="0" G="255" B="127"/>
+    <Color x:Key="GreenThemeBorderColor" R="0" G="0" B="0"/>
+    <Color x:Key="GreenThemeMenuColor" R="0" G="255" B="0"/>
+    <Color x:Key="GreenThemeTextColor" R="0" G="0" B="0"/>
+    <Color x:Key="GreenThemeListboxColor" R="32" G="178" B="170"/>
+    <Color x:Key="GreenThemeTextFieldColor" R="0" G="255" B="0"/>
+    <Color x:Key="GreenThemeButtonColor" R="0" G="255" B="0"/>
+</ResourceDictionary>

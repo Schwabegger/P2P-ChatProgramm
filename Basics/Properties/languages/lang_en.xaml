@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="StrAddPersonOrGroupTitle">Add person or create a groupchat</system:String>
+    <system:String x:Key="StrAddPersonTitle">Add person</system:String>
+    <system:String x:Key="StrCopyIpButton">copy your IP address</system:String>
+    <system:String x:Key="StrCopyIpButtonClicked">✅ copied IP</system:String>
+    <system:String x:Key="StrAddButton">Add</system:String>
+    <system:String x:Key="StrSettings">Settings</system:String>
+    <system:String x:Key="StrSaveButton">Save</system:String>
+    <system:String x:Key="StrLanguageLabelInSettings">language:</system:String>
+    <system:String x:Key="StrThemesLabel">Themes</system:String>
+    <system:String x:Key="StrProfileLabel">Profile</system:String>
+    <system:String x:Key="StrOtherLabel">Other</system:String>
+
+    <system:String x:Key="StrWelcomeTitle">Welcome</system:String>
+    <system:String x:Key="StrUsernameLabel">Username</system:String>
+    <system:String x:Key="StrContinouButton">Continou</system:String>
+    <system:String x:Key="StrSigmamaleGrindsetLabel">Sigmamale Grindset Tips</system:String>
+
+    <system:String x:Key="StrEnterIpLabel">Enter IP address from another person</system:String>
+    <system:String x:Key="StrAskSomeoneForTheyrIpLabel">Ask someone for their IP</system:String>
+    <system:String x:Key="StrSupportHyperlink">Support Team Alice!</system:String>
+
+    <system:String x:Key="StrIpCopyErrorMsg">Ip could not be copied!</system:String>
+
+    <system:String x:Key="StrLeaveGroupMsg">Do you really want to leave?</system:String>
+    <system:String x:Key="StrLeaveGroupMsgTitle">Leave group</system:String>
+</ResourceDictionary>

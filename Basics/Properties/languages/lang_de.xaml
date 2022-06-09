@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="StrAddPersonOrGroupTitle">Personen hinzufügen oder Gruppe erstellen</system:String>
+    <system:String x:Key="StrAddPersonTitle">Personen hinzufügen</system:String>
+    <system:String x:Key="StrCopyIpButton">IP Adresse kopiern</system:String>
+    <system:String x:Key="StrCopyIpButtonClicked">✅ IP-Adresse kopiert</system:String>
+    <system:String x:Key="StrAddButton">Hinzufügen</system:String>
+    <system:String x:Key="StrCreateButton">Erstellen</system:String>
+    <system:String x:Key="StrSettings">Einstellungen</system:String>
+    <system:String x:Key="StrSaveButton">Speichern</system:String>
+    <system:String x:Key="StrLanguageLabelInSettings">Sprache:</system:String>
+    <system:String x:Key="StrThemesLabel">Themen</system:String> <!--fian peda--> <!--Themes-->
+    <system:String x:Key="StrProfileLabel">Profil</system:String>
+    <system:String x:Key="StrOtherLabel">Sonstiges</system:String>
+
+    <system:String x:Key="StrWelcomeTitle">Willkommen</system:String>
+    <system:String x:Key="StrUsernameLabel">Benutzername</system:String>
+    <system:String x:Key="StrContinouButton">Weiter</system:String>
+    <system:String x:Key="StrSigmamaleGrindsetLabel">Sigmamale Grindset Tipps</system:String>
+
+    <system:String x:Key="StrEnterIpLabel">IP-Adresse einer Person eingeben</system:String>
+    <system:String x:Key="StrCreateGroupLabel">Gruppe erstellen</system:String>
+    <system:String x:Key="StrAskSomeoneForTheyrIpLabel">Bitte jemanden, dir seine Adresse zu geben</system:String>
+    <system:String x:Key="StrEnterDesiredGroupNameLabel">Gib den gewünschten Gruppennamen ein</system:String>
+    <system:String x:Key="StrSupportHyperlink">Unterstütze Team Alice!</system:String>
+
+    <system:String x:Key="StrIpCopyErrorMsg">IP-Adresse konnte nicht kopiert werden!</system:String>
+
+    <system:String x:Key="StrLeaveGroupMsg">Gruppe wirklich verlassen?</system:String>
+    <system:String x:Key="StrLeaveGroupMsgTitle">Gruppe verlassen</system:String>
+</ResourceDictionary>

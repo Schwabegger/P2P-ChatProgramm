@@ -1,0 +1,40 @@
+﻿<Window x:Class="Basics.Windows.Welcome"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Basics.Windows"
+        xmlns:vm="clr-namespace:Basics.Viewmodels"
+        mc:Ignorable="d"
+        Title="Willkommen" Height="125" Width="325"
+        ResizeMode="NoResize"
+        BorderBrush="Black"
+        BorderThickness="1"
+        WindowStyle="None"
+        MouseDown="Drag">
+
+    <Window.DataContext>
+        <vm:WelcomeViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Top" Fill="Gray" Height="10"/>-->
+        <StackPanel Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{DynamicResource StrWelcomeTitle}" FontWeight="SemiBold" Padding="5 0 5 0" Background="DarkSlateGray" Foreground="White"/>
+            <StackPanel Orientation="Vertical" Margin="10 10 0 0">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{DynamicResource StrUsernameLabel}" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Height="20"
+                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding ClickCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Content="{DynamicResource StrContinouButton}" Margin="5 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding ClickCommand}" Height="20"/>
+                </StackPanel>
+                <!--<TextBlock x:Name="tbl_hint" HorizontalAlignment="Left" Margin="20,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>-->
+                <Label HorizontalAlignment="Left" Content="{DynamicResource StrSigmamaleGrindsetLabel}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
