@@ -286,7 +286,6 @@ namespace Basics.Viewmodels
                     for (int i = 0; i < groupchat.Participants.Count; i++)
                         if (groupchat.Participants[i].UserId == senderId)
                             return;
-                    groupchat.Participants.Add(joinedUser);
                     foreach (User participant in groupchat.Participants)
                     {
                         try
@@ -300,6 +299,7 @@ namespace Basics.Viewmodels
                         }
                         catch { }
                     }
+                    groupchat.Participants.Add(joinedUser);
                 }
         }
 
