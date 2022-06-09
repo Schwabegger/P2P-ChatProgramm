@@ -11,7 +11,7 @@ namespace GrpcServer
         public event EventHandler<string> RequestedUserHandler;
         public event EventHandler<(string, long, string, string)> RecivedUserHandler;
         public event EventHandler<(string, long, string, string)> OpenPrivateChatHandler;
-        public event EventHandler<(long, string, string)> AddedToGroupchatHandler;
+        public event EventHandler<(long, string, string, string, long, string, string)> AddedToGroupchatHandler;
         public event EventHandler<(long, string)> PrivateMessageRecivedHandler;
         public event EventHandler<(long, long, string)> GroupMessageRecivedHandler;
         public event EventHandler<(long, long, string, string)> NewUserAddedToGroupchatHandler;
@@ -29,7 +29,7 @@ namespace GrpcServer
         }
         public override Task<Recived> AddedToGroupchat(AddedToGroupchatMsg request, ServerCallContext context)
         {
-            AddedToGroupchatHandler?.Invoke(this, (request.RoomId, request.RoomName, request.RoomPfp));
+            AddedToGroupchatHandler?.Invoke(this, (request.RoomId, request.RoomName, request.RoomPfp, request.SenderIp, request.SenderId, request.SenderName, request.SenderPfp));
             return Task.FromResult(new Recived
             {
                 Done = true
