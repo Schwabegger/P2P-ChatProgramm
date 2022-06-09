@@ -392,11 +392,6 @@ namespace Basics.Viewmodels
             long senderId = e.Item5;
             string senderUserName = e.Item6;
             string senderPicture = e.Item7;
-
-            MainWindow.Instance.Dispatcher.Invoke(delegate ()
-            {
-                Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
-            });
             User senderUser = null;
             foreach (User user in Contacts)
                 if (user.UserId == senderId)
