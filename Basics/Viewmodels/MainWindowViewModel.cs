@@ -148,7 +148,7 @@ namespace Basics.Viewmodels
             //MeAsUser = new User(IPAddress.Parse("69.69.69.69"), Properties.Settings.Default.Name, Properties.Settings.Default.Pfp);
             Properties.Settings.Default.PropertyChanged += UpdateUser;
             // Me as User
-            Contacts.Add(new User(IPAddress.Parse(GetIpAddressFromHost()), Properties.Settings.Default.Name, Properties.Settings.Default.Pfp, DateTime.Now.Ticks));
+            Contacts.Add(new User(IPAddress.Parse(GetIpAddressFromHost()), Properties.Settings.Default.Name, Properties.Settings.Default.Pfp, Properties.Settings.Default.UserId));
 
             // zum testen
             {
@@ -298,14 +298,21 @@ namespace Basics.Viewmodels
         /// </summary>
         private void BringChatroomToTop(int index = -1)
         {
-            if (SelectedChatroomIndex > 0)
-            {
-                Chatrooms.Move(0, SelectedChatroomIndex);
-            }
             if (index > 0)
             {
-                Chatrooms.Move(0, index);
+                MainWindow.Instance.Dispatcher.Invoke(delegate ()
+                {
+                    Chatrooms.Move(0, index);
+                });
             }
+            else if (SelectedChatroomIndex > 0)
+            {
+                MainWindow.Instance.Dispatcher.Invoke(delegate ()
+                {
+                    Chatrooms.Move(0, SelectedChatroomIndex);
+                });
+            }
+            
         }
 
         /// <summary>
@@ -377,6 +384,7 @@ namespace Basics.Viewmodels
             });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
             await grpcSender.OpenPrivateChat(ip, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
+            SelectedChatroomIndex = 0;
         }
 
         /// <summary>
@@ -416,6 +424,7 @@ namespace Basics.Viewmodels
         {
             Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(DateTime.Now.Ticks, name, Viewmodels.BaseViewModel.Pfps[5], Contacts[0], grpcSender)));
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
+            SelectedChatroomIndex = 0;
         }
 
         /// <summary>
