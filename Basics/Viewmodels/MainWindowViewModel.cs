@@ -383,14 +383,36 @@ namespace Basics.Viewmodels
         /// Creates/adds a group chat to list
         /// </summary>
         /// <param name="groupName">The name the group chat should have</param>
-        private void AddGroupChatroom(object sender, (long, string, string) e)
+        private void AddGroupChatroom(object sender, (long, string, string, string, long, string, string) e)
         {
             long roomId = e.Item1;
             string groupName = e.Item2;
             string pfp = e.Item3;
+            IPAddress senderIp = IPAddress.Parse(e.Item4);
+            long senderId = e.Item5;
+            string senderUserName = e.Item6;
+            string senderPicture = e.Item7;
+
             MainWindow.Instance.Dispatcher.Invoke(delegate ()
             {
                 Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
+            });
+            User senderUser = null;
+            foreach (User user in Contacts)
+                if (user.UserId == senderId)
+                    senderUser = user;
+            if (senderUser == null)
+            {
+                Contacts.Add(new User(senderIp, senderUserName, senderPicture, senderId));
+                senderUser = Contacts[Contacts.Count - 1];
+            }
+            MainWindow.Instance.Dispatcher.Invoke(delegate ()
+            {
+                Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
+            });
+            MainWindow.Instance.Dispatcher.Invoke(delegate ()
+            {
+                ((Groupchat)Chatrooms[0].ChatRoom).Participants.Add(senderUser);
             });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
         }
