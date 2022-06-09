@@ -275,7 +275,7 @@ namespace Basics.Viewmodels
                     foreach (ChatRoomViewModel chatRoomViewModel in Chatrooms)
                         if (chatRoomViewModel.ChatRoom is PrivateChat privateChat && privateChat.OtherUser.UserId == senderId)
                         {
-                             chatRoomViewModel.ChatRoom.Name = contact.UserName;
+                            chatRoomViewModel.ChatRoom.Name = contact.UserName;
                             break;
                         }
                     break;
@@ -400,7 +400,11 @@ namespace Basics.Viewmodels
 
         private async Task SendUserOnRequest(string ip)
         {
-            await grpcSender.SendUser(IPAddress.Parse(ip), Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture); ;
+            try
+            {
+                await grpcSender.SendUser(IPAddress.Parse(ip), Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture); ;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -493,7 +497,11 @@ namespace Basics.Viewmodels
                 Chatrooms.Insert(0, new ChatRoomViewModel(new PrivateChat(Contacts[Contacts.Count - 1], Contacts[Contacts.Count - 1].Picture, Contacts[0], grpcSender)));
             });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
-            await grpcSender.OpenPrivateChat(ip, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
+            try
+            {
+                await grpcSender.OpenPrivateChat(ip, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
+            }
+            catch { }
             SelectedChatroomIndex = 0;
         }
 
@@ -534,7 +542,11 @@ namespace Basics.Viewmodels
                 ((Groupchat)Chatrooms[0].ChatRoom).Participants.Add(senderUser);
             });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
-            await grpcSender.JoinGroupchat(senderIp, roomId, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
+            try
+            {
+                await grpcSender.JoinGroupchat(senderIp, roomId, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
+            }
+            catch { }
         }
 
         private void CreateGroupChatroom(string name)
