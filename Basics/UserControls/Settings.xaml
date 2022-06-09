@@ -193,7 +193,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                 </StackPanel>
-                <Image Grid.Row="2" Source="https://store.weclapp.com/wp-content/uploads/2017/10/paypal-addon.png"></Image>
+                    <Image Grid.Row="2" Source="https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_960_720.png" Margin="20"></Image>
                 <Viewbox MaxHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Margin="20">
                     <TextBlock>
                             <Hyperlink NavigateUri="https://paypal.me/ratzy" RequestNavigate="Hyperlink_RequestNavigate">
