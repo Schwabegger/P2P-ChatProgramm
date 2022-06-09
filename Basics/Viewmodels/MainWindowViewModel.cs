@@ -278,7 +278,9 @@ namespace Basics.Viewmodels
                 Contacts.Add(new User(senderIp, senderName, senderPfp, senderId));
                 joinedUser = Contacts[Contacts.Count - 1];
             }
-            foreach (ChatRoomViewModel chat in Chatrooms)
+            ChatRoomViewModel[] chatRoomViewModels = new ChatRoomViewModel[Chatrooms.Count];
+            Chatrooms.CopyTo(chatRoomViewModels, 0);
+            foreach (ChatRoomViewModel chat in chatRoomViewModels)
                 if (chat.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
                 {
                     for (int i = 0; i < groupchat.Participants.Count; i++)
