@@ -18,6 +18,6 @@ namespace Basics.Interfaces
         public Task<bool> SendUser(IPAddress reciverIp, IPAddress myIp, long myId, string myName, string myPfp);
         public Task<bool> OpenPrivateChat(IPAddress reciverIp, IPAddress myIp, long myId, string myName, string myPfp);
         public Task<bool> OpenPrivateChatroom(IPAddress reciverIp, IPAddress myIp, long myId, string myName, string myPfp);
-        public Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp);
+        public Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp, IPAddress senderIp, long senderId, string sendername, string senderPfp);
     }
 }
