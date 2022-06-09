@@ -436,7 +436,7 @@ namespace Basics.Viewmodels
         /// </summary>
         private void BringChatroomToTop(int index = -1)
         {
-            if (index > 0)
+            if (index >= 0)
             {
                 MainWindow.Instance.Dispatcher.Invoke(delegate ()
                 {
@@ -463,17 +463,22 @@ namespace Basics.Viewmodels
             Chatrooms.CopyTo(chatRoomViewModels, 0);
 
             foreach (ChatRoomViewModel chatRoomViewModel in chatRoomViewModels)
-                if (chatRoomViewModel.ChatRoom == sender)
+                if (chatRoomViewModel.ChatRoom is Groupchat groupchat && groupchat.RoomId == ((Groupchat)((ChatRoomViewModel)sender).ChatRoom).RoomId)
                 {
-                    User[] participants = new User[((Groupchat)sender).Participants.Count];
-                    ((Groupchat)sender).Participants.CopyTo(participants, 0);
+                    User[] participants = new User[((Groupchat)((ChatRoomViewModel)sender).ChatRoom).Participants.Count];
+                    ((Groupchat)((ChatRoomViewModel)sender).ChatRoom).Participants.CopyTo(participants, 0);
                     foreach (User participant in participants)
                         try
                         {
-                            await grpcSender.LeaveGroup(participant.Ip, ((Groupchat)sender).RoomId, Contacts[0].UserId);
+                            await grpcSender.LeaveGroup(participant.Ip, ((Groupchat)((ChatRoomViewModel)sender).ChatRoom).RoomId, Contacts[0].UserId);
                         }
                         catch { }
-                    Chatrooms.Remove(chatRoomViewModel);
+                    foreach(ChatRoomViewModel chatRoomViewModel1 in Chatrooms)
+                        if(chatRoomViewModel1.ChatRoom is Groupchat groupchat1 && groupchat1.RoomId == ((Groupchat)((ChatRoomViewModel)sender).ChatRoom).RoomId)
+                        {
+                            Chatrooms.Remove(chatRoomViewModel1);
+                            break;
+                        }
                     this.LeftGroup?.Invoke(this, EventArgs.Empty);
                     break;
                 }
@@ -489,7 +494,7 @@ namespace Basics.Viewmodels
             catch (Exception ex)
             {
                 MessageBox.Show("could not establish connection therefore cant open chat", "Could not establish connection", MessageBoxButton.OK, MessageBoxImage.Information);
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
             }
         }
 
