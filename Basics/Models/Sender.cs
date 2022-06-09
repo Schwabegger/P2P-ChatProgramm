@@ -77,11 +77,11 @@ namespace Basics.Models
             throw new NotImplementedException();
         }
 
-        public async Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp)
+        public async Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp, IPAddress senderIp, long senderId, string sendername, string senderPfp)
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
-            var res = await client.AddedToGroupchatAsync(new AddedToGroupchatMsg() { RoomId = roomId, RoomName = name, RoomPfp = pfp });
+            var res = await client.AddedToGroupchatAsync(new AddedToGroupchatMsg() { RoomId = roomId, RoomName = name, RoomPfp = pfp, SenderIp = senderId.ToString(), SenderId = senderId, SenderName = sendername, SenderPfp = senderPfp });
             await channel.ShutdownAsync();
             return res.Done;
         }

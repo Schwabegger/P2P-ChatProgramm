@@ -83,7 +83,7 @@ namespace Basics.Viewmodels
 
         private async void AddUserToChatroom(IPAddress addedUserIp)
         {
-            await ChatRoom.Sender.AddToGroupchat(addedUserIp, ((Groupchat)ChatRoom).RoomId, ((Groupchat)ChatRoom).Name, ((Groupchat)ChatRoom).Picture);
+            await ChatRoom.Sender.AddToGroupchat(addedUserIp, ((Groupchat)ChatRoom).RoomId, ((Groupchat)ChatRoom).Name, ((Groupchat)ChatRoom).Picture, ((Groupchat)ChatRoom).Me.Ip, ((Groupchat)ChatRoom).Me.UserId, ((Groupchat)ChatRoom).Me.UserName, ((Groupchat)ChatRoom).Me.Picture);
             User addedUser = GetUser(addedUserIp);
             // (string name, string pfp) = AddUserToChat(AddIp, ((Groupchat)this.ChatRoom).RoomId, ((Groupchat)this.ChatRoom).Picture)
             //User addedUser = new User() { UserName = name, Picture = pfp, Ip = AddIp};
