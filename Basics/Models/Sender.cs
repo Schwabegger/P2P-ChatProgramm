@@ -81,7 +81,7 @@ namespace Basics.Models
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
-            var res = await client.AddedToGroupchatAsync(new AddedToGroupchatMsg() { RoomId = roomId, RoomName = name, RoomPfp = pfp, SenderIp = senderId.ToString(), SenderId = senderId, SenderName = sendername, SenderPfp = senderPfp });
+            var res = await client.AddedToGroupchatAsync(new AddedToGroupchatMsg() { RoomId = roomId, RoomName = name, RoomPfp = pfp, SenderIp = senderIp.ToString(), SenderId = senderId, SenderName = sendername, SenderPfp = senderPfp });
             await channel.ShutdownAsync();
             return res.Done;
         }

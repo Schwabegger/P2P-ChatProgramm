@@ -298,7 +298,7 @@ namespace Basics.Viewmodels
         /// </summary>
         private void BringChatroomToTop(int index = -1)
         {
-            if (SelectedChatroomIndex != 0)
+            if (SelectedChatroomIndex > 0)
             {
                 Chatrooms.Move(0, SelectedChatroomIndex);
             }
