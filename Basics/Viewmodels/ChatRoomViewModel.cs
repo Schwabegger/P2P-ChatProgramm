@@ -84,19 +84,6 @@ namespace Basics.Viewmodels
         private async void AddUserToChatroom(IPAddress addedUserIp)
         {
             await ChatRoom.Sender.AddToGroupchat(addedUserIp, ((Groupchat)ChatRoom).RoomId, ((Groupchat)ChatRoom).Name, ((Groupchat)ChatRoom).Picture, ((Groupchat)ChatRoom).Me.Ip, ((Groupchat)ChatRoom).Me.UserId, ((Groupchat)ChatRoom).Me.UserName, ((Groupchat)ChatRoom).Me.Picture);
-            User addedUser = GetUser(addedUserIp);
-            // (string name, string pfp) = AddUserToChat(AddIp, ((Groupchat)this.ChatRoom).RoomId, ((Groupchat)this.ChatRoom).Picture)
-            //User addedUser = new User() { UserName = name, Picture = pfp, Ip = AddIp};
-            foreach (User user in ((Groupchat)this.ChatRoom).Participants)
-                if (user.UserId == addedUser.UserId)
-                    return;
-
-            foreach (User user in ((Groupchat)this.ChatRoom).Participants)
-            {
-                ChatRoom.Sender.TransmitChatroomParticipantsToAddedUser(addedUser.Ip, ((Groupchat)this.ChatRoom).RoomId, user.Ip, user.UserId, user.UserName, user.Picture);
-                ChatRoom.Sender.TellOthersANewUserWasAddedToChatroomAsync(user.Ip, ((Groupchat)this.ChatRoom).RoomId, addedUserIp, addedUser.UserId, addedUser.UserName, addedUser.Picture);
-            }
-            ((Groupchat)this.ChatRoom).Participants.Add(addedUser);
         }
 
         private User GetUser(IPAddress ip)

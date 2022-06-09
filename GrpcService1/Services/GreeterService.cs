@@ -12,9 +12,10 @@ namespace GrpcServer
         public event EventHandler<(string, long, string, string)> RecivedUserHandler;
         public event EventHandler<(string, long, string, string)> OpenPrivateChatHandler;
         public event EventHandler<(long, string, string, string, long, string, string)> AddedToGroupchatHandler;
+        public event EventHandler<(long, string, long, string, string)> JoinedGroupchatHandler;
         public event EventHandler<(long, string)> PrivateMessageRecivedHandler;
         public event EventHandler<(long, long, string)> GroupMessageRecivedHandler;
-        public event EventHandler<(long, long, string, string)> NewUserAddedToGroupchatHandler;
+        public event EventHandler<(long, string, long, string, string)> NewUserAddedToGroupchatHandler;
         public event EventHandler<(long, long, string, string, string)> TransmitChatroomParticipantHandler;
         public event EventHandler<(long, string)> NameChangedHandler;
         public event EventHandler<(long, string)> PfpChangedHandler;
@@ -61,7 +62,7 @@ namespace GrpcServer
         }
         public override Task<Recived> NewUserAddedToGroupchatRecived(NewUserAddedToGroupchat request, ServerCallContext _)
         {
-            NewUserAddedToGroupchatHandler?.Invoke(this, (request.RoomId, request.UserId, request.UserName, request.UserPfp));
+            NewUserAddedToGroupchatHandler?.Invoke(this, (request.RoomId, request.UserIp, request.UserId, request.UserName, request.UserPfp));
             return Task.FromResult(new Recived
             {
                 Done = true
@@ -99,7 +100,15 @@ namespace GrpcServer
                 Done = true
             });
         }
-
+        public override Task<Recived> JoinGroupchat(JoinGroupchatMsg request, ServerCallContext _)
+        {
+            JoinedGroupchatHandler?.Invoke(this, (request.RoomId, request.SenderIp, request.SenderId, request.SenderName, request.SenderPfp));
+            return Task.FromResult(new Recived
+            {
+                Done = true
+            });
+        }
+        
 
         //public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
         //{

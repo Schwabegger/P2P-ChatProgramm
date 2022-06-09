@@ -18,6 +18,7 @@ service Greeter {
   rpc RequestedUserPrivate (RequestUserMsg) returns (Recived);
   rpc RequestedUserGroup (RequestUserMsg) returns (Recived);
   rpc SendUser (SendUserMsg) returns (Recived);
+  rpc JoinGroupchat (JoinGroupchatMsg) returns (Recived);
 }
 
 message Recived{
@@ -63,12 +64,20 @@ message AddedToGroupchatMsg{
 	string senderPfp = 7;
 }
 
+message JoinGroupchatMsg{
+	int64 roomId = 1;
+	string senderIp = 2;
+	int64 senderId = 3;
+	string senderName = 4;
+	string senderPfp = 5;
+}
+
 message NewUserAddedToGroupchat{
 	int64 roomId = 1;
-	int64 userId = 2;
-	string userName = 3;
-	string userPfp = 4;
-	string userIp = 5;
+	string userIp = 2;
+	int64 userId = 3;
+	string userName = 4;
+	string userPfp = 5;
 }
 
 message TransmitChatroomParticipant{

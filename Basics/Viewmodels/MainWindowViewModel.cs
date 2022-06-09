@@ -235,7 +235,70 @@ namespace Basics.Viewmodels
             services.AddedToGroupchatHandler += AddGroupChatroom;
             services.TransmitChatroomParticipantHandler += AddParticipantToCharoom;
             services.OpenPrivateChatHandler += AddPrivateChat;
-            //services.RequestedUserHandler += (sender, args) => ;
+            services.JoinedGroupchatHandler += UserJoinedGroupchat;
+            services.NewUserAddedToGroupchatHandler += AddAddedUserToGroupchat;
+        }
+
+
+        private async void AddAddedUserToGroupchat(object sender, (long, string, long, string, string) e)
+        {
+            long roomId = e.Item1;
+            IPAddress senderIp = IPAddress.Parse(e.Item2);
+            long senderId = e.Item3;
+            string senderName = e.Item4;
+            string senderPfp = e.Item5;
+
+            User joinedUser = null;
+            foreach (User contact in Contacts)
+                if (contact.UserId == senderId)
+                    joinedUser = contact;
+            if (joinedUser == null)
+            {
+                Contacts.Add(new User(senderIp, senderName, senderPfp, senderId));
+                joinedUser = Contacts[Contacts.Count - 1];
+            }
+            foreach (ChatRoomViewModel chat in Chatrooms)
+                if (chat.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
+                    groupchat.Participants.Add(joinedUser);
+        }
+        private async void UserJoinedGroupchat(object sender, (long, string, long, string, string) e)
+        {
+            long roomId = e.Item1;
+            IPAddress senderIp = IPAddress.Parse(e.Item2);
+            long senderId = e.Item3;
+            string senderName = e.Item4;
+            string senderPfp = e.Item5;
+
+            User joinedUser = null;
+            foreach (User contact in Contacts)
+                if (contact.UserId == senderId)
+                    joinedUser = contact;
+            if (joinedUser == null)
+            {
+                Contacts.Add(new User(senderIp, senderName, senderPfp, senderId));
+                joinedUser = Contacts[Contacts.Count - 1];
+            }
+            foreach (ChatRoomViewModel chat in Chatrooms)
+                if (chat.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
+                {
+                    for (int i = 0; i < groupchat.Participants.Count; i++)
+                        if (groupchat.Participants[i].UserId == senderId)
+                            return;
+                    groupchat.Participants.Add(joinedUser);
+                    foreach (User participant in groupchat.Participants)
+                    {
+                        try
+                        {
+                            await grpcSender.TransmitChatroomParticipantsToAddedUser(senderIp, roomId, participant.Ip, participant.UserId, participant.UserName, participant.Picture);
+                        }
+                        catch { }
+                        try
+                        {
+                            await grpcSender.TellOthersANewUserWasAddedToChatroom(participant.Ip, roomId, senderIp, senderId, senderName, senderPfp);
+                        }
+                        catch { }
+                    }
+                }
         }
 
         private void AddPrivateChat(object sender, (string, long, string, string) e)
@@ -312,7 +375,7 @@ namespace Basics.Viewmodels
                     Chatrooms.Move(0, SelectedChatroomIndex);
                 });
             }
-            
+
         }
 
         /// <summary>
@@ -391,15 +454,17 @@ namespace Basics.Viewmodels
         /// Creates/adds a group chat to list
         /// </summary>
         /// <param name="groupName">The name the group chat should have</param>
-        private void AddGroupChatroom(object sender, (long, string, string, string, long, string, string) e)
+        private async void AddGroupChatroom(object sender, (long, string, string, string, long, string, string) e)
         {
             long roomId = e.Item1;
             string groupName = e.Item2;
             string pfp = e.Item3;
+
             IPAddress senderIp = IPAddress.Parse(e.Item4);
             long senderId = e.Item5;
             string senderUserName = e.Item6;
             string senderPicture = e.Item7;
+
             User senderUser = null;
             foreach (User user in Contacts)
                 if (user.UserId == senderId)
@@ -409,6 +474,10 @@ namespace Basics.Viewmodels
                 Contacts.Add(new User(senderIp, senderUserName, senderPicture, senderId));
                 senderUser = Contacts[Contacts.Count - 1];
             }
+            foreach (ChatRoomViewModel chat in Chatrooms)
+                if (chat.ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
+                    return;
+
             MainWindow.Instance.Dispatcher.Invoke(delegate ()
             {
                 Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(roomId, groupName, pfp, Contacts[0], grpcSender)));
@@ -418,6 +487,7 @@ namespace Basics.Viewmodels
                 ((Groupchat)Chatrooms[0].ChatRoom).Participants.Add(senderUser);
             });
             Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
+            await grpcSender.JoinGroupchat(senderIp, roomId, Contacts[0].Ip, Contacts[0].UserId, Contacts[0].UserName, Contacts[0].Picture);
         }
 
         private void CreateGroupChatroom(string name)

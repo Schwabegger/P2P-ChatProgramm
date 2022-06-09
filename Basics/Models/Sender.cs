@@ -27,7 +27,7 @@ namespace Basics.Models
             return res.Done;
         }
 
-        public async Task<bool> TellOthersANewUserWasAddedToChatroomAsync(IPAddress reciverIp, long roomId, IPAddress addedUserIp, long addedUserId, string addedUserName, string addedUserPfp)
+        public async Task<bool> TellOthersANewUserWasAddedToChatroom(IPAddress reciverIp, long roomId, IPAddress addedUserIp, long addedUserId, string addedUserName, string addedUserPfp)
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
@@ -72,16 +72,20 @@ namespace Basics.Models
             return res.Done;
         }
 
-        public async Task<bool> OpenPrivateChatroom(IPAddress reciverIp, IPAddress myIp, long myId, string myName, string myPfp)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> AddToGroupchat(IPAddress reciverIp, long roomId, string name, string pfp, IPAddress senderIp, long senderId, string sendername, string senderPfp)
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
             var res = await client.AddedToGroupchatAsync(new AddedToGroupchatMsg() { RoomId = roomId, RoomName = name, RoomPfp = pfp, SenderIp = senderIp.ToString(), SenderId = senderId, SenderName = sendername, SenderPfp = senderPfp });
+            await channel.ShutdownAsync();
+            return res.Done;
+        }
+
+        public async Task<bool> JoinGroupchat(IPAddress reciverIp, long roomId, IPAddress senderIp, long senderId, string sendername, string senderPfp)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            var res = await client.JoinGroupchatAsync(new JoinGroupchatMsg() { RoomId = roomId, SenderIp = senderIp.ToString(), SenderId = senderId, SenderName = sendername, SenderPfp = senderPfp });
             await channel.ShutdownAsync();
             return res.Done;
         }
