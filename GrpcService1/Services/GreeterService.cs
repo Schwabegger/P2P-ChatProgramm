@@ -1,12 +1,14 @@
 ﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
-// Supporters:
-// ඞ Hackl Tobias
-// ඞ Ratzenböck Peter
+// Collaborators:
+//  ඞ Hackl Tobias
+//  ඞ Ratzenböck Peter
 
 using Grpc.Core;
 using GrpcShared;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace GrpcServer
@@ -25,6 +27,9 @@ namespace GrpcServer
         public event EventHandler<(long, string)> NameChangedHandler;
         public event EventHandler<(long, string)> PfpChangedHandler;
         public event EventHandler<(long, long)> LeftGroupchatHandler;
+
+        public event EventHandler<(long, string)> RecivedFilePrivate; // userId, content (pfad)
+        public event EventHandler<(long, long, string)> RecivedFileGroup; // roomId, userId, content (pfad)
         
         public override Task<Recived> RequestedUserPrivate(RequestUserMsg request, ServerCallContext context)
         {
@@ -122,15 +127,18 @@ namespace GrpcServer
                 Done = true
             });
         }
-        
 
-        //public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
-        //{
-        //    _logger.LogInformation($"Saying hello to {request.Name}\n");
-        //    return Task.FromResult(new HelloReply
-        //    {
-        //        Message = "Hello " + request.Name
-        //    });
-        //}
+        public override async Task<UploadStatus> UploadFilePrivate(IAsyncStreamReader<Chunk> requestStream, ServerCallContext context)
+        {
+            List<Chunk>chunks = new List<Chunk>();
+            while (await requestStream.MoveNext())
+            {
+                chunks.Add(requestStream.Current);
+            }
+
+            // und wia moch i do a file draus und speichert des
+
+            return new UploadStatus();
+        }
     }
 }

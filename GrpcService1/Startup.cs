@@ -1,7 +1,7 @@
 ﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
-// Supporters:
-// ඞ Hackl Tobias
-// ඞ Ratzenböck Peter
+// Collaborators:
+//  ඞ Hackl Tobias
+//  ඞ Ratzenböck Peter
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +32,7 @@ namespace GrpcServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<GreeterService>();
+                //endpoints.MapGrpcService<GuploadService>();
             });
         }
     }

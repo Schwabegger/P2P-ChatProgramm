@@ -1,3 +1,8 @@
+﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
+// Collaborators:
+//  ඞ Hackl Tobias
+//  ඞ Ratzenböck Peter
+
 syntax = "proto3";
 
 option csharp_namespace = "GrpcShared";
@@ -20,7 +25,12 @@ service Greeter {
   rpc SendUser (SendUserMsg) returns (Recived);
   rpc JoinGroupchat (JoinGroupchatMsg) returns (Recived);
   rpc LeftGroup (LeftGroupMsg) returns (Recived);
+  rpc UploadFilePrivate(stream Chunk) returns (UploadStatus);
 }
+
+//service GuploadService {
+//    rpc Upload(stream Chunk) returns (UploadStatus) {}
+//}
 
 message Recived{
 	bool done = 1;
@@ -102,4 +112,20 @@ message PfpChanged{
 message LeftGroupMsg{
 	int64 roomId = 1;
 	int64 senderId = 2;
+}
+
+
+enum UploadStatusCode {
+    Unknown = 0;
+    Ok = 1;
+    Failed = 2;
+}
+
+message UploadStatus {
+    string message = 1;
+    UploadStatusCode code = 2;
+}
+
+message Chunk{
+    bytes content = 1;
 }

@@ -1,7 +1,7 @@
 ﻿// Copyright ©️ Schwabegger Moritz. All Rights Reserved
-// Supporters:
-// ඞ Hackl Tobias
-// ඞ Ratzenböck Peter
+// Collaborators:
+//  ඞ Hackl Tobias
+//  ඞ Ratzenböck Peter
 
 using System;
 using System.Collections.Generic;
