@@ -41,4 +41,7 @@ Collaborators:
 
     <system:String x:Key="StrConnectionFailed">Could not establish connection therefore cant open chat</system:String>
     <system:String x:Key="StrConnectionFailedTitle">Connection failed</system:String>
+
+    <system:String x:Key="StrSendFileError">Can not send this file</system:String>
+    <system:String x:Key="StrSendFileErrorTitle">Error</system:String>
 </ResourceDictionary>
