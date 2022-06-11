@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <Viewbox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,70,0" Height="50">
-            <TextBlock Foreground="{DynamicResource Textcolor}" Text="Settings" FontWeight="DemiBold"/>
+            <TextBlock Foreground="{DynamicResource Textcolor}" Text="{DynamicResource StrSettings}" FontWeight="DemiBold"/>
         </Viewbox>
 
 
