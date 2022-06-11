@@ -107,7 +107,6 @@ namespace Basics.Viewmodels
                 else
                     MessageBox.Show("Cant send this file", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
-            MessageBox.Show(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents"));
         }
 
         private async void AddUserToChatroom(IPAddress addedUserIp)
