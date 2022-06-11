@@ -92,7 +92,7 @@ namespace Basics.Viewmodels
 
         private async void SendFile()
         {
-            string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar", "exe" };
+            string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar", "exe", "ඞ", "sus" };
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|exe (*.exe)|*.exe|amogus (*.ඞ)|*.ඞ;*.sus|All files (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
