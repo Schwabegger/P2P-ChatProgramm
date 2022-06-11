@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Basics.Windows"
         xmlns:vm="clr-namespace:Basics.Viewmodels"
         mc:Ignorable="d"
-        Title="Willkommen" Height="125" Width="325"
+        Title="Willkommen" Height="135" Width="325"
         ResizeMode="NoResize"
         BorderBrush="Black"
         BorderThickness="1"
@@ -21,9 +21,9 @@
         <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Top" Fill="Gray" Height="10"/>-->
         <StackPanel Orientation="Vertical">
             <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="{DynamicResource StrWelcomeTitle}" FontWeight="SemiBold" Padding="5 0 5 0" Background="DarkSlateGray" Foreground="White"/>
-            <StackPanel Orientation="Vertical" Margin="10 10 0 0">
+            <StackPanel Orientation="Vertical" Margin="10 5 0 0">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{DynamicResource StrUsernameLabel}" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-                <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                <StackPanel Orientation="Horizontal" Margin="0 7 0 7">
                     <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Height="20"
                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
                         <TextBox.InputBindings>
@@ -33,7 +33,7 @@
                     <Button Content="{DynamicResource StrContinouButton}" Margin="5 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding ClickCommand}" Height="20"/>
                 </StackPanel>
                 <!--<TextBlock x:Name="tbl_hint" HorizontalAlignment="Left" Margin="20,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>-->
-                <Label HorizontalAlignment="Left" Content="{DynamicResource StrSigmamaleGrindsetLabel}"/>
+                <TextBlock HorizontalAlignment="Stretch" Text="{Binding SigmaRule}" TextWrapping="WrapWithOverflow"/>
             </StackPanel>
         </StackPanel>
     </Grid>
