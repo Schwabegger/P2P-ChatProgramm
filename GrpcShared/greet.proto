@@ -25,7 +25,7 @@ service Greeter {
   rpc SendUser (SendUserMsg) returns (Recived);
   rpc JoinGroupchat (JoinGroupchatMsg) returns (Recived);
   rpc LeftGroup (LeftGroupMsg) returns (Recived);
-  rpc UploadFilePrivate(stream Chunk) returns (UploadStatus);
+  rpc UploadFilePrivateStream (stream Chunk) returns (Recived);
 }
 
 //service GuploadService {
@@ -127,5 +127,6 @@ message UploadStatus {
 }
 
 message Chunk{
-    bytes content = 1;
+    string fileName = 1;
+    bytes content = 2;
 }

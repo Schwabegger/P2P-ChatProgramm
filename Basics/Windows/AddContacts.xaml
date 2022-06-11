@@ -65,10 +65,20 @@
                     Style="{StaticResource RnCnBtn}" Content="{DynamicResource StrCreateButton}" IsEnabled="{Binding CreateGroupButtonEnabled}" 
                     Foreground="{DynamicResource Textcolor}" Background="{DynamicResource Buttoncolor}"
                     Click="btn_createGroup_Click"/>
-            
+
             <TextBlock Height="20" Margin="20,10,160,0" Grid.Row="2" TextWrapping="Wrap" 
                        Text="{DynamicResource StrEnterDesiredGroupNameLabel}" IsEnabled="{Binding GroupEnabled}" Foreground="{DynamicResource Textcolor}"/>
         </Grid>
+        <Label Content="ඞ"  Grid.Row="1" RenderTransformOrigin="0.5,0.5" Margin="392,56,-390,-52">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-13.015"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
     </Grid>
     <!--</dialog:AddContacts>-->
 </Window>

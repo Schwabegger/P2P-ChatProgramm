@@ -4,10 +4,13 @@
 //  ඞ Ratzenböck Peter
 
 using Basics.Interfaces;
+using Google.Protobuf;
 using Grpc.Net.Client;
 using GrpcShared;
 using System;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Basics.Models
@@ -36,7 +39,7 @@ namespace Basics.Models
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
-            var res = await client.NewUserAddedToGroupchatRecivedAsync(new NewUserAddedToGroupchat() { RoomId = roomId, UserIp = addedUserIp.ToString(), UserId = addedUserId, UserName = addedUserName, UserPfp = addedUserPfp});
+            var res = await client.NewUserAddedToGroupchatRecivedAsync(new NewUserAddedToGroupchat() { RoomId = roomId, UserIp = addedUserIp.ToString(), UserId = addedUserId, UserName = addedUserName, UserPfp = addedUserPfp });
             await channel.ShutdownAsync();
             return res.Done;
         }
@@ -117,7 +120,7 @@ namespace Basics.Models
         {
             var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
             var client = new Greeter.GreeterClient(channel);
-            var res = await client.LeftGroupAsync(new LeftGroupMsg() { RoomId = roomId, SenderId = senderId});
+            var res = await client.LeftGroupAsync(new LeftGroupMsg() { RoomId = roomId, SenderId = senderId });
             await channel.ShutdownAsync();
             return res.Done;
         }
@@ -128,6 +131,28 @@ namespace Basics.Models
             var client = new Greeter.GreeterClient(channel);
             await action();
             await channel.ShutdownAsync();
+            return true;
+        }
+
+        public async Task<bool> SendFilePrivateSteam(IPAddress reciverIp, long senderId, string filePath)
+        {
+            var channel = GrpcChannel.ForAddress($"http://{reciverIp}:5000");
+            var client = new Greeter.GreeterClient(channel);
+            using var stream = client.UploadFilePrivateStream();
+
+
+            const int MAX_BUFFER = 1048576; //1MB 
+            byte[] buffer = new byte[MAX_BUFFER];
+            int bytesRead;
+            using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            using (BufferedStream bs = new BufferedStream(fs))
+            {
+                while ((bytesRead = bs.Read(buffer, 0, MAX_BUFFER)) != 0) //reading 1mb chunks at a time
+                {
+                    await stream.RequestStream.WriteAsync(new Chunk() {FileName = Path.GetFileName(filePath), Content = ByteString.CopyFrom(buffer)});
+                }
+            }
+
             return true;
         }
     }

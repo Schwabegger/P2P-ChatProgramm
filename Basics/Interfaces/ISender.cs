@@ -28,5 +28,6 @@ namespace Basics.Interfaces
         public Task<bool> PfpChanged(IPAddress reciverIp, long senderId, string senderNewPfp);
         public Task<bool> NameChanged(IPAddress reciverIp, long senderId, string senderNewName);
         public Task<bool> LeaveGroup(IPAddress reciverIp, long roomId, long senderId);
+        public Task<bool> SendFilePrivateSteam(IPAddress reciverIp, long senderId, string filePath);
     }
 }
