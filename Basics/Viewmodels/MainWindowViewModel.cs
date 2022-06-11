@@ -156,22 +156,6 @@ namespace Basics.Viewmodels
             Contacts.Add(new User(IPAddress.Parse(GetIpAddressFromHost()), Properties.Settings.Default.Name, Properties.Settings.Default.Pfp, Properties.Settings.Default.UserId));
 
             Chatrooms = new ObservableCollection<ChatRoomViewModel>();
-            // zum testen
-            //{
-            //    Contacts.Add(new User(IPAddress.Parse("1.1.1.1"), "PrivateCHat", Viewmodels.BaseViewModel.Pfps[0], -2));
-            //    Chatrooms.Add(
-            //        new ChatRoomViewModel(
-            //            new PrivateChat(Contacts[Contacts.Count - 1], Viewmodels.BaseViewModel.Pfps[0], Contacts[0], grpcSender)
-            //            {
-            //                ChatHistory = new ObservableCollection<Message>()
-            //                {
-            //                    new Message(Contacts[Contacts.Count -1], "Hallo"),
-            //                    new Message(Contacts[0], "zeas" )
-            //                }
-            //            }));
-            //    Chatrooms[0].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
-            //    CreateGroupChatroomForTesting();
-            //}
 
             this.AddChatroomCommand = new DelegateCommand(
             _ =>
@@ -236,7 +220,7 @@ namespace Basics.Viewmodels
 
             services.RequestedUserHandler += async (sender, e) => await SendUserOnRequest(e);
             services.PrivateMessageRecivedHandler += AddRecivedPrivateMessage;
-            services.GroupMessageRecivedHandler += AddRecifedGroupMessage;
+            services.GroupMessageRecivedHandler += AddRecivedGroupMessage;
             services.AddedToGroupchatHandler += AddGroupChatroom;
             services.TransmitChatroomParticipantHandler += AddParticipantToCharoom;
             services.OpenPrivateChatHandler += AddPrivateChat;
@@ -436,21 +420,23 @@ namespace Basics.Viewmodels
         /// </summary>
         private void BringChatroomToTop(int index = -1)
         {
-            if (index >= 0)
+            if (index == 0)
+                return;
+            if (index > 0)
             {
                 MainWindow.Instance.Dispatcher.Invoke(delegate ()
                 {
-                    Chatrooms.Move(0, index);
+                    Chatrooms.Move(index, 0);
+                    //SelectedChatroomIndex += 1;
                 });
             }
             else if (SelectedChatroomIndex > 0)
             {
                 MainWindow.Instance.Dispatcher.Invoke(delegate ()
                 {
-                    Chatrooms.Move(0, SelectedChatroomIndex);
+                    Chatrooms.Move(SelectedChatroomIndex, 0);
                 });
             }
-
         }
 
         /// <summary>
@@ -671,17 +657,21 @@ namespace Basics.Viewmodels
             }
         }
 
-        private void AddRecifedGroupMessage(object sender, (long, long, string) e)
+        private void AddRecivedGroupMessage(object sender, (long, long, string) e)
         {
             long roomId = e.Item1;
             long senderId = e.Item2;
             string content = e.Item3;
+
+            ChatRoomViewModel[] chatRoomViewModels = new ChatRoomViewModel[Chatrooms.Count];
+            Chatrooms.CopyTo(chatRoomViewModels, 0);
+
             ChatRoom chatRoom = null;
-            for (int i = 0; i < Chatrooms.Count; i++)
+            for (int i = 0; i < chatRoomViewModels.Length; i++)
             {
-                if (Chatrooms[i].ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
+                if (chatRoomViewModels[i].ChatRoom is Groupchat groupchat && groupchat.RoomId == roomId)
                 {
-                    chatRoom = Chatrooms[i].ChatRoom;
+                    chatRoom = chatRoomViewModels[i].ChatRoom;
                     BringChatroomToTop(i);
                     break;
                 }
@@ -717,26 +707,5 @@ namespace Basics.Viewmodels
             //            sender = user;
             return sender;
         }
-
-        /// <summary>
-        /// Creates a groupchaat for testing
-        /// </summary>
-        //public void CreateGroupChatroomForTesting()
-        //{
-        //    Chatrooms.Add(new ChatRoomViewModel(new Groupchat(DateTime.Now.Ticks, "GruppenChat", Viewmodels.BaseViewModel.Pfps[5], Contacts[0], grpcSender)));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "peda", Pfps[1], -4));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[0], "leil des schoff ma"));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "hackl", Pfps[3], -5));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[1], "ja"));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "gruawa", Pfps[5], -6));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[2], "fix"));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "höß", Pfps[4], -7));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[3], "des moch ma"));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "schwabbi", Pfps[0], 8));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[4], "guda einstellung"));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants.Add(new User(IPAddress.Parse("1.1.1.1"), "stephan PO", Pfps[0], -10));
-        //    ((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).ChatHistory.Add(new Message(((Groupchat)Chatrooms[Chatrooms.Count - 1].ChatRoom).Participants[5], "es is scheiß egal oba wir fertig werdn da ned \nEs geht nur drum dass ma drecks scrum moi gmocht hom \nUnd umd Präsentation und so \nObs wirklich funktioniert is ziemlich egal es wird kana wirklich hernema"));
-        //    Chatrooms[1].MessageSentBringChatToTopHandler += (_, _) => BringChatroomToTop();
-        //}
     }
 }

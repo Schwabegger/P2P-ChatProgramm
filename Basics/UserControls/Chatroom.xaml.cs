@@ -33,7 +33,8 @@ namespace Basics.UserControls
 
         private void ScrollDown()
         {
-            lstChat.ScrollIntoView(lstChat.Items[lstChat.Items.Count - 1]);
+            if(lstChat != null)
+                lstChat.ScrollIntoView(lstChat.Items[lstChat.Items.Count - 1]);
         }
 
         private void Button_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)

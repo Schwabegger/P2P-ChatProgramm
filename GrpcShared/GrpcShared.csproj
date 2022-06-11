@@ -8,8 +8,8 @@
 		<DebugType>embedded</DebugType>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 
-		<PublishSingleFile>true</PublishSingleFile>
-		<!--<SelfContained>true</SelfContained>
+		<!--<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<PublishReadyToRun>true</PublishReadyToRun>-->
 	</PropertyGroup>

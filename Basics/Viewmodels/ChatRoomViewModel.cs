@@ -7,7 +7,9 @@ using Basics.Commands;
 using Basics.Interfaces;
 using Basics.Models;
 using Basics.Windows;
+using Microsoft.Win32;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -74,7 +76,21 @@ namespace Basics.Viewmodels
             this.UploadCommand = new DelegateCommand(
                 _ =>
                 {
-                    MessageBox.Show("Sus ඞ", "Amogus", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar" };
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|kompressed files (*.zip, *.rar)|*.zip;*.rar";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.RestoreDirectory = true;
+                    if(openFileDialog.ShowDialog() == true)
+                    {
+                        string filePath = openFileDialog.FileName;
+                        if (validExtensions.Contains(openFileDialog.FileName.Split('.')[openFileDialog.FileName.Split('.').Length - 1]))
+                        {
+
+                        }
+                        else
+                            MessageBox.Show("Cant send this file", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
                 });
             this.ListMembersCommand = new DelegateCommand(
                 _ =>

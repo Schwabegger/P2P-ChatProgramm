@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GrpcServer
@@ -130,13 +131,25 @@ namespace GrpcServer
 
         public override async Task<UploadStatus> UploadFilePrivate(IAsyncStreamReader<Chunk> requestStream, ServerCallContext context)
         {
-            List<Chunk>chunks = new List<Chunk>();
-            while (await requestStream.MoveNext())
-            {
-                chunks.Add(requestStream.Current);
-            }
+            //string path = "";
+            //var file = await File.ReadAllBytesAsync(path);
 
-            // und wia moch i do a file draus und speichert des
+            //List<Chunk> chunks = new List<Chunk>();
+            //List<Google.Protobuf.ByteString> bytes = new List<Google.Protobuf.ByteString>();
+            //while (await requestStream.MoveNext())
+            //{
+            //    chunks.Add(requestStream.Current);
+            //    bytes.Add(requestStream.Current.Content);
+            //}
+
+            //File.WriteAllBytes(chunks.ToArray(), "./Files");
+
+            //await foreach (var request in requestStream.ReadAllAsync())
+            //{
+
+            //}
+
+            //// und wia moch i do a file draus und speichert des
 
             return new UploadStatus();
         }
