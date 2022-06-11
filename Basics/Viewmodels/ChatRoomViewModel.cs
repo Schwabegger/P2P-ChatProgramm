@@ -9,6 +9,7 @@ using Basics.Models;
 using Basics.Windows;
 using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -106,6 +107,7 @@ namespace Basics.Viewmodels
                 else
                     MessageBox.Show("Cant send this file", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+            MessageBox.Show(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents"));
         }
 
         private async void AddUserToChatroom(IPAddress addedUserIp)

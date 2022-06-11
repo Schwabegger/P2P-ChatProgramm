@@ -131,7 +131,7 @@ namespace GrpcServer
 
         public override async Task<Recived> UploadFilePrivateStream(IAsyncStreamReader<Chunk> requestStream, ServerCallContext context)
         {
-            Directory.CreateDirectory(Path.Combine(Environment.SpecialFolder.MyDocuments.ToString(), "Sigma"));
+            Directory.CreateDirectory(Path.Combine(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents"), "Sigma"));
             await foreach (var request in requestStream.ReadAllAsync())
             {
                 using (FileStream fsOut = File.OpenWrite(Path.Combine(Environment.SpecialFolder.MyDocuments.ToString(), request.FileName)))
