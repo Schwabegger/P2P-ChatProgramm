@@ -44,4 +44,6 @@ Collaborators:
 
     <system:String x:Key="StrSendFileError">Can not send this file</system:String>
     <system:String x:Key="StrSendFileErrorTitle">Error</system:String>
+
+    <system:String x:Key="GroupMemberListPartTitle">participants</system:String>
 </ResourceDictionary>

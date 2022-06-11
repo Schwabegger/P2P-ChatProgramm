@@ -12,7 +12,7 @@ namespace Basics.Viewmodels
 {
     public class WelcomeViewModel : BaseViewModel, ICloseWindow
     {
-        string[] simaMaleRules = new string[] 
+        static string[] simaMaleRules = new string[] 
         { 
             "Isolation is a way to know ourselves.",
             "If you’re lonely when you are alone, you’re in bad company.",
@@ -24,7 +24,9 @@ namespace Basics.Viewmodels
             "Be a loner. That gives you time to wonder, to search for truth. Have holy curiosity. Make your life worth living.",
             "A man can be himself alone so long as he is alone. If he does not love solitude, he will not love freedom; for it is only when he is alone that he is really free."
         };
+
         private string name;
+        private string sigmaRule;
 
         public string Name
         {
@@ -40,8 +42,6 @@ namespace Basics.Viewmodels
             }
         }
 
-        private string sigmaRule;
-
         public string SigmaRule
         {
             get { return sigmaRule; }
@@ -51,7 +51,6 @@ namespace Basics.Viewmodels
                 RaisePropertyChanged();
             }
         }
-
 
         public DelegateCommand ClickCommand { get; set; }
 
@@ -75,4 +74,3 @@ namespace Basics.Viewmodels
         }
     }
 }
-

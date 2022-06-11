@@ -42,4 +42,6 @@ Collaborators:
 
     <system:String x:Key="StrSendFileError">Datei konnte nicht gesendet werden</system:String>
     <system:String x:Key="StrSendFileErrorTitle">Fehler</system:String>
+
+    <system:String x:Key="GroupMemberListPartTitle">Teilnehmer</system:String>
 </ResourceDictionary>
