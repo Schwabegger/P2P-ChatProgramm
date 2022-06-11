@@ -77,21 +77,7 @@ namespace Basics.Viewmodels
             this.UploadCommand = new DelegateCommand(
                 _ =>
                 {
-                    string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar" };
-                    OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|kompressed files (*.zip, *.rar)|*.zip;*.rar|amogus (*.ඞ)|*.ඞ";
-                    openFileDialog.FilterIndex = 1;
-                    openFileDialog.RestoreDirectory = true;
-                    if(openFileDialog.ShowDialog() == true)
-                    {
-                        string filePath = openFileDialog.FileName;
-                        if (validExtensions.Contains(openFileDialog.FileName.Split('.')[openFileDialog.FileName.Split('.').Length - 1]))
-                        {
-
-                        }
-                        else
-                            MessageBox.Show("Cant send this file", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    }
+                    SendFile();
                 });
             this.ListMembersCommand = new DelegateCommand(
                 _ =>
@@ -101,6 +87,25 @@ namespace Basics.Viewmodels
                     memberList.Resources = MainWindow.Instance.Resources;
                     memberList.ShowDialog();
                 });
+        }
+
+        private async void SendFile()
+        {
+            string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar" };
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|kompressed files (*.zip, *.rar)|*.zip;*.rar|amogus (*.ඞ)|*.ඞ;*.sus";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                if (validExtensions.Contains(openFileDialog.FileName.Split('.')[openFileDialog.FileName.Split('.').Length - 1]))
+                {
+                    await ChatRoom.Sender.SendFilePrivateSteam(((PrivateChat)ChatRoom).OtherUser.Ip, ChatRoom.Me.UserId, filePath);
+                }
+                else
+                    MessageBox.Show("Cant send this file", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private async void AddUserToChatroom(IPAddress addedUserIp)

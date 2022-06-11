@@ -129,29 +129,17 @@ namespace GrpcServer
             });
         }
 
-        public override async Task<UploadStatus> UploadFilePrivate(IAsyncStreamReader<Chunk> requestStream, ServerCallContext context)
+        public override async Task<Recived> UploadFilePrivateStream(IAsyncStreamReader<Chunk> requestStream, ServerCallContext context)
         {
-            //string path = "";
-            //var file = await File.ReadAllBytesAsync(path);
+            await foreach (var request in requestStream.ReadAllAsync())
+            {
+                using (FileStream fsOut = File.OpenWrite(Path.Combine(Environment.SpecialFolder.MyDocuments.ToString(), request.FileName)))
+                {
+                    fsOut.Write(request.Content.ToByteArray(), 0, request.Content.ToByteArray().Length);
+                }
+            }
 
-            //List<Chunk> chunks = new List<Chunk>();
-            //List<Google.Protobuf.ByteString> bytes = new List<Google.Protobuf.ByteString>();
-            //while (await requestStream.MoveNext())
-            //{
-            //    chunks.Add(requestStream.Current);
-            //    bytes.Add(requestStream.Current.Content);
-            //}
-
-            //File.WriteAllBytes(chunks.ToArray(), "./Files");
-
-            //await foreach (var request in requestStream.ReadAllAsync())
-            //{
-
-            //}
-
-            //// und wia moch i do a file draus und speichert des
-
-            return new UploadStatus();
+            return new Recived { Done = true };
         }
     }
 }
