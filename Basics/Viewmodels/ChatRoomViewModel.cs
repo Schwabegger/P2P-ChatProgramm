@@ -59,6 +59,7 @@ namespace Basics.Viewmodels
                 {
                     var addUserVm = new AddUserToGroupChatViewModel();
                     AddUserToGroupChat addUser = new() { AddUserToGroupChatViewModel = addUserVm };
+                    addUser.Resources = MainWindow.Instance.Resources;
                     var result = addUser.ShowDialog();
                     if (result == true)
                     {
@@ -78,7 +79,7 @@ namespace Basics.Viewmodels
                 {
                     string[] validExtensions = new string[] { "jpg", "jpeg", "png", "zip", "rar" };
                     OpenFileDialog openFileDialog = new OpenFileDialog();
-                    openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|kompressed files (*.zip, *.rar)|*.zip;*.rar";
+                    openFileDialog.Filter = "image files (*.jpg, *.png)|*.jpg;*.jpeg;*.png|kompressed files (*.zip, *.rar)|*.zip;*.rar|amogus (*.ඞ)|*.ඞ";
                     openFileDialog.FilterIndex = 1;
                     openFileDialog.RestoreDirectory = true;
                     if(openFileDialog.ShowDialog() == true)
