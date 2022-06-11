@@ -36,4 +36,7 @@ Collaborators:
 
     <system:String x:Key="StrLeaveGroupMsg">Gruppe wirklich verlassen?</system:String>
     <system:String x:Key="StrLeaveGroupMsgTitle">Gruppe verlassen</system:String>
+
+    <system:String x:Key="StrConnectionFailed">Verbindung konnte nicht hergestellt werden, somit wird kein Chat eröffnet</system:String>
+    <system:String x:Key="StrConnectionFailedTitle">Verbindung gescheitert</system:String>
 </ResourceDictionary>

@@ -157,7 +157,6 @@ namespace Basics.Viewmodels
 
             Chatrooms = new ObservableCollection<ChatRoomViewModel>();
 
-            /// opens a new window where the user can create a new private chatroom or a group chatroom
             this.AddChatroomCommand = new DelegateCommand(
             _ =>
             {
@@ -180,17 +179,13 @@ namespace Basics.Viewmodels
                 }
             });
 
-            ///throws an event so the settings usercontrol will be shown
             this.SettingsCommand = new DelegateCommand(
             _ =>
             {
                 SwaptoSetting?.Invoke(this, EventArgs.Empty);
             });
 
-            /// creates a collectionview of the chatroom collection so it can be filtered
             chatroomCollectionView = CollectionViewSource.GetDefaultView(Chatrooms);
-            /// tells the listbox which items to show
-            /// if the user enters something in the searchbox only the chatrooms which contains the entered string are shown
             chatroomCollectionView.Filter = o => String.IsNullOrEmpty(Filter) ? true : ((ChatRoomViewModel)o).ChatRoom.Name.ToLower().Contains(Filter.ToLower());
         }
 
@@ -220,10 +215,6 @@ namespace Basics.Viewmodels
             }
         }
 
-        /// <summary>
-        /// Registers the corresponding methods to the server events
-        /// </summary>
-        /// <param name="services"></param>
         private void RegisterOnServerEvents(GreeterService services)
         {
 
@@ -240,11 +231,6 @@ namespace Basics.Viewmodels
             services.LeftGroupchatHandler += UserLeftGroup;
         }
 
-        /// <summary>
-        /// Removes a user from the chatroom when they left
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void UserLeftGroup(object sender, (long, long) e)
         {
             long roomId = e.Item1;
@@ -262,11 +248,6 @@ namespace Basics.Viewmodels
                         }
         }
 
-        /// <summary>
-        /// Changes the pfp in the contacts if a user changed it
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void UserChangedPfp(object sender, (long, string) e)
         {
             long senderId = e.Item1;
@@ -288,11 +269,6 @@ namespace Basics.Viewmodels
 
         }
 
-        /// <summary>
-        /// Changes the name in the conacts if a user changed theyr name
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void UserChangedName(object sender, (long, string) e)
         {
             long senderId = e.Item1;
@@ -314,11 +290,6 @@ namespace Basics.Viewmodels
                 }
         }
 
-        /// <summary>
-        /// Adds the by an other user added user to the group chatroom
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">contains the room id as well as the information of the added user (roomId, ip, id, name, pfp)</param>
         private async void AddAddedUserToGroupchat(object sender, (long, string, long, string, string) e)
         {
             long roomId = e.Item1;
@@ -341,12 +312,6 @@ namespace Basics.Viewmodels
                     groupchat.Participants.Add(joinedUser);
         }
 
-        /// <summary>
-        /// Adds the new user to the chatroom
-        /// And tells all the other participants that a new user was added
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">contains the added users data as well as the roomid (roomid, ip, id, name, pfp)</param>
         private async void UserJoinedGroupchat(object sender, (long, string, long, string, string) e)
         {
             long roomId = e.Item1;
@@ -389,11 +354,6 @@ namespace Basics.Viewmodels
                 }
         }
 
-        /// <summary>
-        /// Adds a private chatroom to the list when an other user opened a chatroom
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">containes the information of the user who created the chatroom (ip, id, name, pfp)</param>
         private void AddPrivateChat(object sender, (string, long, string, string) e)
         {
             IPAddress ip = IPAddress.Parse(e.Item1);
@@ -420,18 +380,12 @@ namespace Basics.Viewmodels
             });
         }
 
-        /// <summary>
-        /// Adds all the participants to the chatroom after getting added to it
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddParticipantToCharoom(object sender, (long, long, string, string, string) e)
         {
             long roomId = e.Item1;
             long userId = e.Item2;
             string userName = e.Item3;
             string pfp = e.Item4;
-
             IPAddress ip = IPAddress.Parse(e.Item5);
             User userToAdd = null;
             foreach (User user in Contacts)
@@ -452,11 +406,6 @@ namespace Basics.Viewmodels
                 }
         }
 
-        /// <summary>
-        /// Sends our userdata to the person which requested it
-        /// </summary>
-        /// <param name="ip">ip from the user who requested the data</param>
-        /// <returns></returns>
         private async Task SendUserOnRequest(string ip)
         {
             try
@@ -467,7 +416,7 @@ namespace Basics.Viewmodels
         }
 
         /// <summary>
-        /// Brings the chatroom in which a message was added to the top of the chatroom list
+        /// Brings the chatroom the user jusst sent a message in to the top of the chatroom list
         /// </summary>
         private void BringChatroomToTop(int index = -1)
         {
@@ -478,6 +427,7 @@ namespace Basics.Viewmodels
                 MainWindow.Instance.Dispatcher.Invoke(delegate ()
                 {
                     Chatrooms.Move(index, 0);
+                    //SelectedChatroomIndex += 1;
                 });
             }
             else if (SelectedChatroomIndex > 0)
@@ -520,10 +470,6 @@ namespace Basics.Viewmodels
                 }
         }
 
-        /// <summary>
-        /// Creates a private chatroom with the given ip
-        /// </summary>
-        /// <param name="ip"></param>
         private async void CreatePrivateChat(IPAddress ip)
         {
             try
@@ -533,7 +479,7 @@ namespace Basics.Viewmodels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("could not establish connection therefore cant open chat", "Could not establish connection", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Application.Current.FindResource("StrConnectionFailed").ToString(), Application.Current.FindResource("StrConnectionFailedTitle").ToString(), MessageBoxButton.OK, MessageBoxImage.Information);
                 //MessageBox.Show(ex.Message);
             }
         }
@@ -627,10 +573,6 @@ namespace Basics.Viewmodels
             catch { }
         }
 
-        /// <summary>
-        /// Creates a group chat room with the given name
-        /// </summary>
-        /// <param name="name"></param>
         private void CreateGroupChatroom(string name)
         {
             Chatrooms.Insert(0, new ChatRoomViewModel(new Groupchat(DateTime.Now.Ticks, name, Viewmodels.BaseViewModel.Pfps[5], Contacts[0], grpcSender)));
@@ -666,9 +608,6 @@ namespace Basics.Viewmodels
             //    MeAsUser.Picture = Properties.Settings.Default.Pfp;
         }
 
-        /// <summary>
-        /// Tells all the contacts the user changed theyr pfp
-        /// </summary>
         private async void TellOthersPfpChanged()
         {
             User[] contacts = new User[Contacts.Count];
@@ -681,9 +620,6 @@ namespace Basics.Viewmodels
                 catch { }
         }
 
-        /// <summary>
-        /// Tells all the contacts the user changed theyr name
-        /// </summary>
         private async void TellOthersNameChanged()
         {
             User[] contacts = new User[Contacts.Count];
@@ -696,11 +632,6 @@ namespace Basics.Viewmodels
                 catch { }
         }
 
-        /// <summary>
-        /// Adds a private message to a private chatroom
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddRecivedPrivateMessage(object sender, (long, string) e)
         {
             long senderId = e.Item1;
@@ -726,11 +657,6 @@ namespace Basics.Viewmodels
             }
         }
 
-        /// <summary>
-        /// Adds a message to a group chat room
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddRecivedGroupMessage(object sender, (long, long, string) e)
         {
             long roomId = e.Item1;
